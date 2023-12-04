@@ -2,8 +2,9 @@ package view.OverviewPage.sections.Header.components;
 
 import javax.swing.*;
 import java.awt.*;
+
+import util.DropShadowCreatorForAllSides;
 import util.UICreator;
-import util.DropShadowCreator;
 
 public class AnalyticPanel extends JPanel {
 
@@ -20,7 +21,9 @@ public class AnalyticPanel extends JPanel {
     }
 
     public void init() {
-        JPanel subsCountPanel = new DropShadowCreator(5, 5, 5,5);
+        UIManager.put("Panel.background", Color.decode("#FFFFFF"));
+
+        JPanel subsCountPanel = new DropShadowCreatorForAllSides(5, 5, 5,5);
         subsCountPanel.setLayout(new BorderLayout());
         var container1 = new JPanel(new BorderLayout());
         container1.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
@@ -33,7 +36,7 @@ public class AnalyticPanel extends JPanel {
         container1.add(subsImage, BorderLayout.CENTER);
         subsCountPanel.add(container1, BorderLayout.CENTER);
 
-        JPanel addsPanel = new DropShadowCreator(5, 5,5, 5);
+        JPanel addsPanel = new DropShadowCreatorForAllSides(5, 5,5, 5);
         addsPanel.setLayout(new BorderLayout());
         var container2 = new JPanel(new BorderLayout());
         container2.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
@@ -46,7 +49,7 @@ public class AnalyticPanel extends JPanel {
         container2.add(adsImage, BorderLayout.CENTER);
         addsPanel.add(container2, BorderLayout.CENTER);
 
-        JPanel incomePanel = new DropShadowCreator(5,5,5,5);
+        JPanel incomePanel = new DropShadowCreatorForAllSides(5,5,5,5);
         incomePanel.setLayout(new BorderLayout());
         var container3 = new JPanel(new BorderLayout());
         container3.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
@@ -59,7 +62,7 @@ public class AnalyticPanel extends JPanel {
         container3.add(incomeImage, BorderLayout.CENTER);
         incomePanel.add(container3, BorderLayout.CENTER);
 
-        JPanel ratePanel = new DropShadowCreator(5,5,5,5);
+        JPanel ratePanel = new DropShadowCreatorForAllSides(5,5,5,5);
         ratePanel.setLayout(new BorderLayout());
         var container4 = new JPanel(new BorderLayout());
         container4.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
@@ -76,5 +79,7 @@ public class AnalyticPanel extends JPanel {
         this.add(addsPanel);
         this.add(incomePanel);
         this.add(ratePanel);
+
+        UIManager.put("Panel.background", null);
     }
 }

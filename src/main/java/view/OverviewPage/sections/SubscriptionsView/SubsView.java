@@ -47,8 +47,8 @@ public class SubsView extends JPanel {
         var topLabel = UICreator.createLabel("Active Subscriptions", 20, Font.BOLD);
 
         var btnsPanel = new JPanel(new FlowLayout());
-        filterBtn = UICreator.createButton("Filter", UICreator.createImage("/icons/assets/filter.png", 15, 15));
-        addAcctBtn = UICreator.createButton("Add Account", UICreator.createImage("/icons/assets/create.png", 15, 15));
+        filterBtn = UICreator.createButton("Filter", 13, Font.PLAIN, UICreator.createImage("/icons/assets/filter.png", 15, 15));
+        addAcctBtn = UICreator.createButton("Add Account", 13, Font.PLAIN, UICreator.createImage("/icons/assets/create.png", 15, 15));
         btnsPanel.add(filterBtn);
         btnsPanel.add(addAcctBtn);
 

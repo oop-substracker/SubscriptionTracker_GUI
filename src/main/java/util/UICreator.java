@@ -1,15 +1,26 @@
 package util;
 
-import com.formdev.flatlaf.fonts.jetbrains_mono.FlatJetBrainsMonoFont;
-
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Objects;
 
 public class UICreator {
+
+    private static Font regularFont;
+    private static Font boldFont;
+
+    public static void setDefaultFont(Font regularFont, Font boldFont) {
+        UICreator.regularFont = regularFont;
+        UICreator.boldFont = boldFont;
+    }
+
     public static JLabel createLabel(String text, int size, int weight) {
         JLabel label = new JLabel(text);
-        label.setFont(new Font(FlatJetBrainsMonoFont.FAMILY, weight, size));
+        label.setFont(new Font(weight == 1 ? boldFont.getFamily() : regularFont.getFamily(), weight, size));
 
         return label;
     }
@@ -19,7 +30,7 @@ public class UICreator {
         ImageIcon res = new ImageIcon(icon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH));
         JLabel label = new JLabel(res);
         label.setText(text);
-        label.setFont(new Font(FlatJetBrainsMonoFont.FAMILY, weight, size));
+        label.setFont(new Font(weight == 1 ? boldFont.getFamily() : regularFont.getFamily(), weight, size));
 
         return label;
     }
@@ -28,14 +39,43 @@ public class UICreator {
         ImageIcon res = new ImageIcon(image.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH));
         JLabel label = new JLabel(res);
         label.setText(text);
-        label.setFont(new Font(FlatJetBrainsMonoFont.FAMILY, weight, size));
+        label.setFont(new Font(weight == 1 ? boldFont.getFamily() : regularFont.getFamily(), weight, size));
 
         return label;
     }
 
-    public static JTextField createTxtField() {
-        JTextField textField = new JTextField();
-        textField.setFont(new Font(FlatJetBrainsMonoFont.FAMILY, Font.PLAIN, 13));
+    public static JTextField createTxtField(String placeholder) {
+        JTextField textField = new JTextField(placeholder);
+        textField.setFont(new Font(regularFont.getFamily(), Font.PLAIN, 13));
+
+        textField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (textField.getText().equals(placeholder)) {
+                    textField.setText("");
+                    textField.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textField.getText().isEmpty()) {
+                    textField.setText(placeholder);
+                    textField.setForeground(Color.GRAY);
+                }
+            }
+        });
+
+        // Add mouse click listener to clear the placeholder when clicked
+        textField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (textField.getText().equals(placeholder)) {
+                    textField.setText("");
+                    textField.setForeground(Color.BLACK);
+                }
+            }
+        });
 
         return textField;
     }
@@ -49,14 +89,21 @@ public class UICreator {
         return new ImageIcon(image.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
     }
 
-    public static JButton createButton(String text, ImageIcon icon) {
+    public static JButton createButton(String text, int fontSize, int weight, ImageIcon icon) {
         JButton button = new JButton();
         if (icon != null)
             button.setIcon(icon);
         button.setText(text);
-        button.setFont(new Font(FlatJetBrainsMonoFont.FAMILY, Font.PLAIN, 13));
+        button.setFont(new Font(weight == 1 ? boldFont.getFamily() : regularFont.getFamily(), weight, fontSize));
 
         return button;
+    }
+
+    public static void configureTransparentButton(AbstractButton button) {
+        button.setMargin(new Insets(0, -1, 0, 0));
+//        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
     }
 
     public static void createComp(JPanel panel, Component comp, int xPos, int yPos, int gridWidth, int gridHeight, double weightX, double weightY, int anchor, int fill, int top, int left, int bottom, int right, int ipady) {

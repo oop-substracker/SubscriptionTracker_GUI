@@ -24,7 +24,7 @@ public class NavPanel extends JPanel {
 
         left.add(boxLayout, BorderLayout.CENTER);
 
-        profile = UICreator.createButton("", UICreator.createImage("/icons/assets/profile.png", 35,35));
+        profile = UICreator.createButton("", 0, 0, UICreator.createImage("/icons/assets/profile.png", 35,35));
         profile.setBorder(null);
         profile.setBackground(new Color(0, 0, 0,0));
         profile.setBorderPainted(false);

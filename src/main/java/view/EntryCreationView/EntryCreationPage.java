@@ -30,6 +30,7 @@ public class EntryCreationPage extends JPanel {
     public EntryCreationPage(Entry entry) {
         this.setLayout(new GridBagLayout());
         this.entry = entry;
+
         initContainer();
 
         UICreator.createComp(this, container, 0, 0, 1, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.NONE, 0, 0,0,0, 0);
@@ -38,7 +39,6 @@ public class EntryCreationPage extends JPanel {
     private void initContainer() {
         container = new DropShadowCreator(5, 5, 5, 5);
         container.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
-        container.setBackground(Color.WHITE);
 
         initForm();
         initImage();
@@ -49,19 +49,21 @@ public class EntryCreationPage extends JPanel {
     }
 
     private void initForm() {
+
+
         formPanel = new JPanel(new GridBagLayout());
 
         String text = "<html><div style='text-align:center;'>Account Creation<br><span style='font-size:10px;'>We are glad to track your new subscription!</span></div></html>";
         var label = UICreator.createLabel(text, 20, Font.BOLD);
 
-        email = new JTextField("Email");
+        email = UICreator.createTxtField("Email");
 
-        password = new JTextField("Password");
+        password = UICreator.createTxtField("Password");
 
         String[] plans = { "Weekly", "Monthly", "Yearly" };
         subscriptionPlan = new JComboBox<>(plans);
 
-        time = new JTextField("31 : 00 : 00 : 00");
+        time = UICreator.createTxtField("31 : 00 : 00 : 00");
 
         createBtn = new JButton("Create Entry");
         cancelBtn = new JButton("Cancel Entry");
@@ -76,6 +78,8 @@ public class EntryCreationPage extends JPanel {
         UICreator.createComp(formPanel, time, 0, 4, 4, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 0,0,5, 30);
         UICreator.createComp(formPanel, createBtn, 0, 5, 1, 1, 1, 1,GridBagConstraints.WEST, GridBagConstraints.BOTH, 10, 0,0,5, 30);
         UICreator.createComp(formPanel, cancelBtn, 2, 5, 1, 1, 1, 1,GridBagConstraints.EAST, GridBagConstraints.BOTH, 10, 0,0,5, 30);
+
+
     }
 
     private  BillingPeriod handleBillingPeriod(String plan) {

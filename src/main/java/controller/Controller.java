@@ -6,7 +6,7 @@ import model.Subscriptions.SubscriptionList;
 import view.AuthPage.Login;
 import view.AuthPage.Register;
 import view.MainFrame;
-import view.SideBar.SideBar;
+import view.SideBar2.SideBar;
 
 import javax.swing.*;
 import java.awt.*;

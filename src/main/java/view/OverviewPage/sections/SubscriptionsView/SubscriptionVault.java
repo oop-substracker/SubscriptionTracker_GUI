@@ -1,27 +1,28 @@
+
 package view.OverviewPage.sections.SubscriptionsView;
 
 import model.Subscriptions.Subscription;
-import util.DropShadowCreator;
+import util.DropShadowCreatorForAllSides;
 import util.UICreator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class SubscriptionVault  extends JPanel {
-
+public class SubscriptionVault extends JPanel {
 
     public SubscriptionVault() {
         this.setLayout(new FlowLayout(FlowLayout.LEADING));
     }
 
-
     public void updateSubscriptionVaults(List<Subscription> subscriptionList) {
-
         removeAll();
 
+        UIManager.put("Panel.background", Color.decode("#FFFFFF"));
+
         for (Subscription vault : subscriptionList) {
-            var vaultContainer = new DropShadowCreator(5, 5, 5, 5);
+            var vaultContainer = new DropShadowCreatorForAllSides(5, 5, 5, 5);
+
             vaultContainer.setPreferredSize(new Dimension(280, 260));
             vaultContainer.setLayout(new BorderLayout());
             var vaultContent = new JPanel(new BorderLayout());
@@ -54,35 +55,34 @@ public class SubscriptionVault  extends JPanel {
             bottomPanel.setPreferredSize(new Dimension(getWidth(), 60));
 
             String platform = "<html><div style='font-size:15px; font-weight:bold;'>" + vault.getPlatform() + "</html>";
-            var bottomLeftBtn = UICreator.createButton(platform, UICreator.createImage("/icons/assets/spotify.png", 40, 40));
-            bottomLeftBtn.setMargin(new Insets(0, -1, 0, 0));
-            bottomLeftBtn.setBorderPainted(false);
-            bottomLeftBtn.setBackground(new Color(0, 0, 0, 0));
-            bottomLeftBtn.setBorder(null);
+            var bottomLeftBtn = UICreator.createButton(platform, 13, Font.PLAIN, UICreator.createImage("/icons/assets/spotify.png", 40, 40));
+            configureTransparentButton(bottomLeftBtn);
 
             String text = "<html><div style='text-align:center; font-size: 9px; font-weight:bold;'>Cancel<br>Subscription</div></html>";
-            var bottomRightBtn = UICreator.createButton(text, null);
-            bottomRightBtn.setBorderPainted(false);
-            bottomRightBtn.setBorder(null);
-            bottomRightBtn.setBackground(new Color(0, 0, 0, 0));
+            var bottomRightBtn = UICreator.createButton(text, 13, Font.PLAIN, null);
+            configureTransparentButton(bottomRightBtn);
 
             bottomPanel.add(bottomLeftBtn, BorderLayout.WEST);
             bottomPanel.add(bottomRightBtn, BorderLayout.EAST);
 
             vaultContent.add(topContainer, BorderLayout.NORTH);
-            vaultContent.add(image, BorderLayout.CENTER);
+            vaultContent.add(imagePanel, BorderLayout.CENTER);
             vaultContent.add(bottomPanel, BorderLayout.SOUTH);
 
             vaultContainer.add(vaultContent, BorderLayout.CENTER);
-//            vaultsPanel.add(vaultContainer);
-
             this.add(vaultContainer);
         }
 
+        UIManager.put("Panel.background", null);
 
         revalidate();
         repaint();
     }
 
+    private void configureTransparentButton(AbstractButton button) {
+        button.setMargin(new Insets(0, -1, 0, 0));
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+    }
 }
-

@@ -15,13 +15,13 @@ public class EntryItemView extends JPanel {
     }
 
     public void updateEntriesView(List<Entry> entryList) {
-
+        UIManager.put("Panel.background", Color.decode("#FFFFFF"));
         for (Entry entry: entryList) {
             /* 1st entry */
             var panel = new JPanel(new BorderLayout());
             panel.setPreferredSize(new Dimension(getWidth(), 50));
             var platform = UICreator.createLabelWithImage(entry.getPlatform(), 13, Font.BOLD, entry.getImage(), 30, 30);
-            var createBtn = UICreator.createButton("Create Entry", UICreator.createImage("/icons/assets/create.png", 16, 16));
+            var createBtn = UICreator.createButton("Create Entry", 13, Font.PLAIN, UICreator.createImage("/icons/assets/create.png", 16, 16));
 
             panel.add(platform, BorderLayout.WEST);
             panel.add(createBtn, BorderLayout.EAST);
@@ -31,7 +31,7 @@ public class EntryItemView extends JPanel {
 
             this.add(panel);
         }
-
+        UIManager.put("Panel.background", null);
         revalidate();
         repaint();
     }
