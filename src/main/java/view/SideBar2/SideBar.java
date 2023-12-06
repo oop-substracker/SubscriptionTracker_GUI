@@ -2,6 +2,7 @@ package view.SideBar2;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 import util.DropShadowCreator;
 import util.RoundedPanel;
@@ -42,6 +43,22 @@ public class SideBar extends JPanel {
         UIManager.put("Panel.background", null);
     }
 
+    public void overviewBtnNavigateListener(ActionListener listener) {
+        overviewBtn.addActionListener(listener);
+    }
+
+    public void accountsBtnNavigateListener(ActionListener listener) {
+        accountsBtn.addActionListener(listener);
+    }
+
+    public void paymentsBtnNavigateListener(ActionListener listener) {
+        paymentsBtn.addActionListener(listener);
+    }
+
+    public void billingBtnNavigateListener(ActionListener listener) {
+        billingBtn.addActionListener(listener);
+    }
+
     private JPanel wrapButtonWithPadding(JButton button) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(button, BorderLayout.CENTER);
@@ -49,7 +66,7 @@ public class SideBar extends JPanel {
         return panel;
     }
 
-    public void initTop() {
+    private void initTop() {
         topPanel = new JPanel(new GridLayout(4, 1));
 
         overviewBtn = UICreator.createButton("Overview", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/homeblack.png", 28, 28));
@@ -116,6 +133,7 @@ public class SideBar extends JPanel {
     }
 
     private void configureButton(JButton button) {
+        button.setBorderPainted(false);
         button.setIconTextGap(10);
         button.setMargin(new Insets(10, 20, 10, 10));
         button.setHorizontalAlignment(SwingConstants.LEFT);

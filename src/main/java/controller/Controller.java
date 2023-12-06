@@ -11,9 +11,8 @@ import view.SideBar2.SideBar;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.List;
 
-import controller.RequestHandler.GetRequestHandler;
+
 
 /* ========== */
 import view.OverviewPage.Overview;
@@ -22,6 +21,7 @@ import view.OverviewPage.sections.CreateEntryView.CreateEntryView;
 import view.EntryCreationView.EntryCreationPage;
 import view.OverviewPage.sections.SubscriptionsView.SubscriptionVault;
 import view.OverviewPage.sections.CreateEntryView.EntryItemView;
+import view.AccountsPage.AccountsPage;
 
 import model.DefaultEntries.EntryList;
 
@@ -33,7 +33,7 @@ public class Controller  {
     private static SideBar sideBar;
 
     //
-    private GetRequestHandler getRequestHandler;
+//    private GetRequestHandler getRequestHandler;
 
     // models
     private static SubscriptionList subscriptionList;
@@ -45,6 +45,7 @@ public class Controller  {
     private static Overview overview;
     private static SubsView subsView;
     private static CreateEntryView createEntryView;
+    private static AccountsPage accountsPage;
 
     private static EntryList entryList;
     private static EntryItemView entryItemView;
@@ -54,13 +55,13 @@ public class Controller  {
 
     public Controller(MainFrame frame) {
         Controller.frame = frame;
-        frame.addWindowsStateListener(new MyWindowStateListener());
         register = frame.getRegister();
         login = frame.getLogin();
         sideBar = frame.getSideBar();
         entryList = new EntryList();
         overview = frame.getOverview();
         subsView = overview.getSubsView();
+        accountsPage = frame.getAccountsPage();
 
 
         subscriptionVault = subsView.getSubscriptionVault();
@@ -74,24 +75,25 @@ public class Controller  {
 
         onLoad();
 
+        attachListeners();
+
     }
 
     private static void onLoad() {
         createEntryView.getEntryItemView().updateEntriesView(entryList.getEntryList());
         subsView.getSubscriptionVault().updateSubscriptionVaults(SubscriptionList.getSubscriptionList());
+        accountsPage.getAccountsVault().updateAccountsView(SubscriptionList.getSubscriptionList());
     }
 
     /* ================================================================== */
 
-//    private void attachListeners() {
-//        register.addRegisterButtonListener(new RegisterClickListener());
-//        login.addSignButtonListener(new LoginClickListener());
-//
-//        sideBar.homeBtnNavigateListener(new NavigateListener("homePage"));
-//        sideBar.accountsBtnNavigateListener(new NavigateListener("accountsPage"));
-//        sideBar.paymentsBtnNavigateListener(new NavigateListener("paymentsPage"));
-//        frame.setWindowsListener((WindowStateListener) new MyWindowStateListener());
-//    }
+    private void attachListeners() {
+        sideBar.overviewBtnNavigateListener(new NavigateListener("overview"));
+        sideBar.accountsBtnNavigateListener(new NavigateListener("accountsPage"));
+        sideBar.paymentsBtnNavigateListener(new NavigateListener("paymentsPage"));
+        sideBar.billingBtnNavigateListener(new NavigateListener("billingPage"));
+        frame.setWindowsListener(new MyWindowStateListener());
+    }
 
     /* ================================================================== */
 
@@ -151,72 +153,56 @@ public class Controller  {
                         frame.setLocationRelativeTo(null);
                         frame.add(sideBar, BorderLayout.WEST);
                         frame.add(overview, BorderLayout.CENTER);
+
+                        SwingUtilities.invokeLater(() -> {
+                            addCardPanel();
+                            frame.add(frame.getCardPanel(), BorderLayout.CENTER);
+                        });
+
+                        frame.revalidate();
+                        frame.repaint();
                         break;
                 }
             }
+
         }
     }
 
-//    private void addCardPanel() {
-//        frame.addToCardPanel(homeView, "homePage");
-//        frame.addToCardPanel(accountsView, "accountsPage");
+    private static void addCardPanel() {
+        frame.addToCardPanel(overview, "overview");
+        frame.addToCardPanel(accountsPage, "accountsPage");
 //        frame.addToCardPanel(paymentsHistoryView, "paymentsPage");
-//    }
 
-//    private class RegisterClickListener implements ActionListener {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            register.setVisible(false);
-//            login.setVisible(true);
-//            frame.add(login, BorderLayout.CENTER);
-//        }
-//    }
-//
-//    private class LoginClickListener implements ActionListener {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            login.setVisible(false);
-//            addCardPanel();
-//
-//            sideBar.setVisible(true);
-//            frame.add(sideBar, BorderLayout.WEST);
-//            frame.add(frame.getCardPanel(), BorderLayout.CENTER);
-//            frame.setResizable(true);
-//
-//            onLoad();
-//
-//            if (homeView.isVisible()) {
-////                     com.formdev.flatlaf.themes.FlatMacLightLaf.setup();
-//            } else {
-//                com.formdev.flatlaf.themes.FlatMacLightLaf.setup();
-//            }
-//
-//            SwingUtilities.updateComponentTreeUI(frame);
-//        }
-//    }
-//
-//    private class NavigateListener implements ActionListener {
-//        private final String pageName;
-//
-//        NavigateListener(String pageName) {
-//            this.pageName = pageName;
-//        }
-//
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            switch (pageName) {
-//                case "homePage":
-//                    frame.getCardLayout().show(frame.getCardPanel(), "homePage");
-//                    break;
-//                case "accountsPage":
-//                    frame.getCardLayout().show(frame.getCardPanel(), "accountsPage");
-//                    break;
-//                case "paymentsPage":
-//                    frame.getCardLayout().show(frame.getCardPanel(), "paymentsPage");
-//                    break;
-//            }
-//        }
-//    }
+    }
+
+    private class NavigateListener implements ActionListener {
+        private final String pageName;
+
+        NavigateListener(String pageName) {
+            this.pageName = pageName;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            switch (pageName) {
+                case "overview":
+                    frame.getCardLayout().show(frame.getCardPanel(), "overview");
+                    break;
+                case "accountsPage":
+                    frame.getCardLayout().show(frame.getCardPanel(), "accountsPage");
+                    break;
+                case "paymentsPage":
+                    frame.getCardLayout().show(frame.getCardPanel(), "paymentsPage");
+                    break;
+                case "billingPage":
+                    frame.getCardLayout().show(frame.getCardPanel(), "billingPage");
+                    break;
+            }
+
+            frame.revalidate();
+            frame.repaint();
+        }
+    }
 
     private class MyWindowStateListener implements WindowStateListener {
         @Override
@@ -245,12 +231,10 @@ public class Controller  {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            SwingUtilities.invokeLater(() -> {
-                overview.setVisible(false);
-                entryCreationPage = new EntryCreationPage(entry);
-                frame.add(entryCreationPage, BorderLayout.CENTER);
-                entryCreationPage.setVisible(true);
-            });
+            entryCreationPage = new EntryCreationPage(entry);
+            frame.addToCardPanel(entryCreationPage, "entryCreationPage");
+            frame.getCardLayout().show(frame.getCardPanel(), "entryCreationPage");
+
         }
     }
 

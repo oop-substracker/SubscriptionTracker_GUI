@@ -11,7 +11,7 @@ import view.AuthPage.Register;
 import view.AuthPage.Login;
 import view.OverviewPage.Overview;
 import view.SideBar2.SideBar;
-import controller.Controller;
+import view.AccountsPage.AccountsPage;
 
 public class MainFrame extends JFrame {
 
@@ -19,6 +19,10 @@ public class MainFrame extends JFrame {
     private Login login;
     private SideBar sideBar;
     private Overview overview;
+    private AccountsPage accountsPage;
+
+    private CardLayout cardLayout;
+    private JPanel cardPanel;
 
     public MainFrame() {
         initCustomFonts();
@@ -26,12 +30,34 @@ public class MainFrame extends JFrame {
         login = new Login();
         sideBar = new SideBar();
         overview = new Overview();
+        accountsPage = new AccountsPage();
         setSize(new Dimension(1024, 700));
         setMinimumSize(new Dimension(800, this.getHeight()));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
 
         this.add(register, BorderLayout.CENTER);
+
+        cardLayout = new CardLayout();
+        cardPanel = new JPanel(cardLayout);
+    }
+
+    public void setWindowsListener(WindowStateListener listener) { this.addWindowStateListener((WindowStateListener) listener);}
+
+    public void addToCardPanel(JPanel panel, String name) {
+        this.cardPanel.add(panel, name);
+    }
+
+    public CardLayout getCardLayout() {
+        return cardLayout;
+    }
+
+    public JPanel getCardPanel() {
+        return cardPanel;
+    }
+
+    public AccountsPage getAccountsPage() {
+        return accountsPage;
     }
 
     public SideBar getSideBar() {

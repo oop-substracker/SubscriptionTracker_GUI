@@ -34,6 +34,7 @@ public class EntryCreationPage extends JPanel {
         initContainer();
 
         UICreator.createComp(this, container, 0, 0, 1, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.NONE, 0, 0,0,0, 0);
+
     }
 
     private void initContainer() {
@@ -46,6 +47,7 @@ public class EntryCreationPage extends JPanel {
         container.add(image);
         container.add(Box.createHorizontalStrut(10));
         container.add(formPanel);
+
     }
 
     private void initForm() {

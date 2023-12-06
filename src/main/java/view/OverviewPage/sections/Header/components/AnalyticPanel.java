@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import util.DropShadowCreatorForAllSides;
+import util.RoundedPanelWithShadow;
 import util.UICreator;
 
 public class AnalyticPanel extends JPanel {
@@ -14,18 +15,18 @@ public class AnalyticPanel extends JPanel {
     private JLabel rate;
 
     public AnalyticPanel() {
-        setLayout(new GridLayout(1, 4, 5, 5));
+        setLayout(new GridLayout(1, 4, 10, 5));
         this.setPreferredSize(new Dimension(getWidth(), 100));
 
         init();
     }
 
     public void init() {
-        UIManager.put("Panel.background", Color.decode("#FFFFFF"));
 
-        JPanel subsCountPanel = new DropShadowCreatorForAllSides(5, 5, 5,5);
-        subsCountPanel.setLayout(new BorderLayout());
-        var container1 = new JPanel(new BorderLayout());
+        JPanel subsCountPanel =  new JPanel(new BorderLayout());
+        var container1 = new RoundedPanelWithShadow();
+        container1.setBackground(Color.decode("#FFFFFF"));
+        container1.setLayout(new BorderLayout());
         container1.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
         subsCountPanel.setPreferredSize(new Dimension(400, 200));
         var subsText = UICreator.createLabel("Subscription count", 13, Font.BOLD);
@@ -36,9 +37,10 @@ public class AnalyticPanel extends JPanel {
         container1.add(subsImage, BorderLayout.CENTER);
         subsCountPanel.add(container1, BorderLayout.CENTER);
 
-        JPanel addsPanel = new DropShadowCreatorForAllSides(5, 5,5, 5);
-        addsPanel.setLayout(new BorderLayout());
-        var container2 = new JPanel(new BorderLayout());
+        JPanel addsPanel = new JPanel(new BorderLayout());
+        var container2 = new RoundedPanelWithShadow();
+        container2.setLayout(new BorderLayout());
+        container2.setBackground(Color.decode("#FFFFFF"));
         container2.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
         addsPanel.setPreferredSize(new Dimension(400, 200));
         var addsText = UICreator.createLabel("Overall ads", 13, Font.BOLD);
@@ -49,9 +51,10 @@ public class AnalyticPanel extends JPanel {
         container2.add(adsImage, BorderLayout.CENTER);
         addsPanel.add(container2, BorderLayout.CENTER);
 
-        JPanel incomePanel = new DropShadowCreatorForAllSides(5,5,5,5);
-        incomePanel.setLayout(new BorderLayout());
-        var container3 = new JPanel(new BorderLayout());
+        JPanel incomePanel =  new JPanel(new BorderLayout());
+        var container3 = new RoundedPanelWithShadow();
+        container3.setBackground(Color.decode("#FFFFFF"));
+        container3.setLayout(new BorderLayout());
         container3.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
         incomePanel.setPreferredSize(new Dimension(400, 200));
         var incomeText = UICreator.createLabel("Income status", 13, Font.BOLD);
@@ -62,9 +65,10 @@ public class AnalyticPanel extends JPanel {
         container3.add(incomeImage, BorderLayout.CENTER);
         incomePanel.add(container3, BorderLayout.CENTER);
 
-        JPanel ratePanel = new DropShadowCreatorForAllSides(5,5,5,5);
-        ratePanel.setLayout(new BorderLayout());
-        var container4 = new JPanel(new BorderLayout());
+        JPanel ratePanel =  new JPanel(new BorderLayout());
+        var container4 = new RoundedPanelWithShadow();
+        container4.setBackground(Color.decode("#FFFFFF"));
+        container4.setLayout(new BorderLayout());
         container4.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
         ratePanel.setPreferredSize(new Dimension(400, 200));
         var rateText = UICreator.createLabel("Conversion rate", 13, Font.BOLD);

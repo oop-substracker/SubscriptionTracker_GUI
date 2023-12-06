@@ -7,24 +7,31 @@ public class RoundedPanel extends JPanel {
 
     private Color backgroundColor;
     private int cornerRadius = 15;
+
     public RoundedPanel(LayoutManager layout, int radius) {
         super(layout);
         cornerRadius = radius;
+        setBorder(null); // Set the border to be empty
     }
+
     public RoundedPanel(LayoutManager layout, int radius, Color bgColor) {
         super(layout);
         cornerRadius = radius;
         backgroundColor = bgColor;
+        setBorder(null); // Set the border to be empty
     }
+
     public RoundedPanel(int radius) {
         super();
         cornerRadius = radius;
-
+        setBorder(null); // Set the border to be empty
     }
+
     public RoundedPanel(int radius, Color bgColor) {
         super();
         cornerRadius = radius;
         backgroundColor = bgColor;
+        setBorder(null); // Set the border to be empty
     }
     @Override
     protected void paintComponent(Graphics g) {
