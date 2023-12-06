@@ -23,6 +23,7 @@ public class AccountsVault extends JPanel {
 
         for (Subscription account : subscriptionList) {
             JPanel vault = new RoundedPanelWithShadow();
+            vault.setBackground(Color.decode("#FFFFFF"));
             vault.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
             vault.setLayout(new BorderLayout());
             vault.setPreferredSize(new Dimension(250, 130));

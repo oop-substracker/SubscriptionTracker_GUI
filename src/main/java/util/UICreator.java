@@ -124,4 +124,12 @@ public class UICreator {
 
         panel.add(comp, gc);
     }
+
+    public static Font getRegularFont() {
+        return regularFont;
+    }
+
+    public static Font getBoldFont() {
+        return boldFont;
+    }
 }

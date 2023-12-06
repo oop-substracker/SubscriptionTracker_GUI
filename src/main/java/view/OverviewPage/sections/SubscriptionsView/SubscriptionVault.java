@@ -53,7 +53,7 @@ public class SubscriptionVault extends JPanel {
             var imagePanel = new JPanel(new BorderLayout());
             imagePanel.setBackground(Color.decode("#FFFFFF"));
             imagePanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
-            var image = new JLabel(UICreator.createImage("/icons/assets/growth-1.png", 250, 160));
+            var image = new JLabel(UICreator.createImage("/icons/assets/g-4.png", 280, 240));
             imagePanel.add(image, BorderLayout.CENTER);
 
             // END OF CENTER

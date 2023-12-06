@@ -12,6 +12,8 @@ import view.AuthPage.Login;
 import view.OverviewPage.Overview;
 import view.SideBar2.SideBar;
 import view.AccountsPage.AccountsPage;
+import view.PaymentsHistoryPage.PaymentsHistoryPage;
+import view.BillingPage.BillingPage;
 
 public class MainFrame extends JFrame {
 
@@ -20,6 +22,8 @@ public class MainFrame extends JFrame {
     private SideBar sideBar;
     private Overview overview;
     private AccountsPage accountsPage;
+    private PaymentsHistoryPage paymentsHistoryPage;
+    private BillingPage billingPage;
 
     private CardLayout cardLayout;
     private JPanel cardPanel;
@@ -31,6 +35,8 @@ public class MainFrame extends JFrame {
         sideBar = new SideBar();
         overview = new Overview();
         accountsPage = new AccountsPage();
+        paymentsHistoryPage = new PaymentsHistoryPage();
+        billingPage = new BillingPage();
         setSize(new Dimension(1024, 700));
         setMinimumSize(new Dimension(800, this.getHeight()));
         this.setLocationRelativeTo(null);
@@ -54,6 +60,14 @@ public class MainFrame extends JFrame {
 
     public JPanel getCardPanel() {
         return cardPanel;
+    }
+
+    public PaymentsHistoryPage getPaymentsHistoryPage() {
+        return paymentsHistoryPage;
+    }
+
+    public BillingPage getBillingPage() {
+        return billingPage;
     }
 
     public AccountsPage getAccountsPage() {
@@ -112,11 +126,13 @@ public class MainFrame extends JFrame {
         FontUIResource labelFont = new FontUIResource(font);
         FontUIResource textFieldFont = new FontUIResource(font);
         FontUIResource buttonFont = new FontUIResource(font.getFamily(), Font.PLAIN, 14);
+        FontUIResource tabbedPaneFont = new FontUIResource(font);
 
         UIManager.put("Label.font", labelFont);
         UIManager.put("TextField.font", textFieldFont);
         UIManager.put("Button.font", buttonFont);
-
+//        UIManager.put("TabbedPane.font", tabbedPaneFont);
+//        UIManager.put("TabbedPane.font", new FontUIResource(font));
 
         UIManager.put("Button.focus", UIManager.getColor("Button.background"));
 
@@ -126,6 +142,5 @@ public class MainFrame extends JFrame {
             e.printStackTrace();
         }
     }
-
 
 }

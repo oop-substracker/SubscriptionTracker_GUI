@@ -22,6 +22,8 @@ import view.EntryCreationView.EntryCreationPage;
 import view.OverviewPage.sections.SubscriptionsView.SubscriptionVault;
 import view.OverviewPage.sections.CreateEntryView.EntryItemView;
 import view.AccountsPage.AccountsPage;
+import view.PaymentsHistoryPage.PaymentsHistoryPage;
+import view.BillingPage.BillingPage;
 
 import model.DefaultEntries.EntryList;
 
@@ -46,6 +48,8 @@ public class Controller  {
     private static SubsView subsView;
     private static CreateEntryView createEntryView;
     private static AccountsPage accountsPage;
+    private static PaymentsHistoryPage paymentsHistoryPage;
+    private static BillingPage billingPage;
 
     private static EntryList entryList;
     private static EntryItemView entryItemView;
@@ -62,7 +66,8 @@ public class Controller  {
         overview = frame.getOverview();
         subsView = overview.getSubsView();
         accountsPage = frame.getAccountsPage();
-
+        paymentsHistoryPage = frame.getPaymentsHistoryPage();
+        billingPage = frame.getBillingPage();
 
         subscriptionVault = subsView.getSubscriptionVault();
 
@@ -83,6 +88,7 @@ public class Controller  {
         createEntryView.getEntryItemView().updateEntriesView(entryList.getEntryList());
         subsView.getSubscriptionVault().updateSubscriptionVaults(SubscriptionList.getSubscriptionList());
         accountsPage.getAccountsVault().updateAccountsView(SubscriptionList.getSubscriptionList());
+        billingPage.updateTabbedPaneData(SubscriptionList.getSubscriptionList());
     }
 
     /* ================================================================== */
@@ -171,8 +177,8 @@ public class Controller  {
     private static void addCardPanel() {
         frame.addToCardPanel(overview, "overview");
         frame.addToCardPanel(accountsPage, "accountsPage");
-//        frame.addToCardPanel(paymentsHistoryView, "paymentsPage");
-
+        frame.addToCardPanel(paymentsHistoryPage, "paymentsPage");
+        frame.addToCardPanel(billingPage, "billingPage");
     }
 
     private class NavigateListener implements ActionListener {
