@@ -5,6 +5,7 @@ import model.DefaultEntries.Entry;
 import util.UICreator;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.util.List;
 
@@ -22,12 +23,16 @@ public class EntryItemView extends JPanel {
             var panel = new JPanel(new BorderLayout());
             panel.setPreferredSize(new Dimension(getWidth(), 50));
             var platform = UICreator.createLabelWithImage(entry.getPlatform(), 13, Font.BOLD, entry.getImage(), 30, 30);
-            var createBtn = UICreator.createButton("Create Entry", 13, Font.PLAIN, UICreator.createImage("/icons/assets/create.png", 16, 16));
+            var createBtn = UICreator.createButton(false,"Create Entry", 13, Font.PLAIN, UICreator.createImage("/icons/assets/create.png", 16, 16), 0, 0);
             configureTransparentButton(createBtn);
 
             panel.add(platform, BorderLayout.WEST);
             panel.add(createBtn, BorderLayout.EAST);
-            panel.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 0, Color.LIGHT_GRAY));
+            Border matteBorder = BorderFactory.createMatteBorder(1, 1, 0, 0, Color.LIGHT_GRAY);
+            Border emptyBorder = BorderFactory.createEmptyBorder(0, 20, 0, 10);
+            Border compoundBorder = BorderFactory.createCompoundBorder(matteBorder, emptyBorder);
+            panel.setBorder(compoundBorder);
+
 
             createBtn.addActionListener(new Controller.CreateEntryListener(entry));
 

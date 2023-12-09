@@ -7,6 +7,8 @@ import java.util.Objects;
 import model.DefaultEntries.Entry;
 import model.Subscriptions.Billing;
 import model.Subscriptions.constants.BillingPeriod;
+import util.DropShadowCreatorForAllSides;
+import util.RoundedComboBox;
 import util.UICreator;
 import util.DropShadowCreator;
 import controller.Controller;
@@ -33,12 +35,12 @@ public class EntryCreationPage extends JPanel {
 
         initContainer();
 
-        UICreator.createComp(this, container, 0, 0, 1, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.NONE, 0, 0,0,0, 0);
+        UICreator.createComp(this, container, 0, 0, 1, 1, 2, 1,GridBagConstraints.CENTER, GridBagConstraints.NONE,0, 0,0,0, 0, 120);
 
     }
 
     private void initContainer() {
-        container = new DropShadowCreator(5, 5, 5, 5);
+        container = new DropShadowCreatorForAllSides(5, 5, 5, 5);
         container.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
 
         initForm();
@@ -63,7 +65,8 @@ public class EntryCreationPage extends JPanel {
         password = UICreator.createTxtField("Password");
 
         String[] plans = { "Weekly", "Monthly", "Yearly" };
-        subscriptionPlan = new JComboBox<>(plans);
+        subscriptionPlan = new RoundedComboBox<>(plans);
+        subscriptionPlan.setFont(UICreator.getRegularFont().deriveFont(Font.PLAIN,  13));
 
         time = UICreator.createTxtField("31 : 00 : 00 : 00");
 
@@ -73,13 +76,13 @@ public class EntryCreationPage extends JPanel {
         createBtn.addActionListener(new Controller.EntryCreationActionListeners(createBtn, new Subscription(email.getText(), entry.getPlatform(), time.getText(), new Billing(handleBillingPeriod((String) Objects.requireNonNull(subscriptionPlan.getSelectedItem())),2.25, 2.25, 39.00), "December 14, 2023")));
         cancelBtn.addActionListener(new Controller.EntryCreationActionListeners(cancelBtn, null));
 
-        UICreator.createComp(formPanel, label, 0, 0, 4, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 0,0,5, 0);
-        UICreator.createComp(formPanel, email, 0, 1, 4, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, 40, 0,0,5, 30);
-        UICreator.createComp(formPanel, password, 0, 2, 4, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 0,0,5, 30);
-        UICreator.createComp(formPanel, subscriptionPlan, 0, 3, 4, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 0,0,5, 30);
-        UICreator.createComp(formPanel, time, 0, 4, 4, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 0,0,5, 30);
-        UICreator.createComp(formPanel, createBtn, 0, 5, 1, 1, 1, 1,GridBagConstraints.WEST, GridBagConstraints.BOTH, 10, 0,0,5, 30);
-        UICreator.createComp(formPanel, cancelBtn, 2, 5, 1, 1, 1, 1,GridBagConstraints.EAST, GridBagConstraints.BOTH, 10, 0,0,5, 30);
+        UICreator.createComp(formPanel, label, 0, 0, 4, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 50,0,5, 0);
+        UICreator.createComp(formPanel, email, 0, 1, 4, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, 40, 50,0,5, 30);
+        UICreator.createComp(formPanel, password, 0, 2, 4, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 50,0,5, 30);
+        UICreator.createComp(formPanel, subscriptionPlan, 0, 3, 4, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 50,0,5, 30);
+        UICreator.createComp(formPanel, time, 0, 4, 4, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 50,0,5, 30);
+        UICreator.createComp(formPanel, createBtn, 0, 5, 1, 1, 1, 1,GridBagConstraints.WEST, GridBagConstraints.BOTH, 10, 50,0,5, 30);
+        UICreator.createComp(formPanel, cancelBtn, 2, 5, 1, 1, 1, 1,GridBagConstraints.EAST, GridBagConstraints.BOTH, 10, 50,0,5, 30);
 
 
     }
@@ -105,6 +108,6 @@ public class EntryCreationPage extends JPanel {
 
 
     private void initImage() {
-        image = new JLabel(UICreator.createImage("/icons/poster/netflix.jpg", 325, 500));
+        image = new JLabel(UICreator.createImage("/icons/poster/netflix.jpg", 390, 500));
     }
 }

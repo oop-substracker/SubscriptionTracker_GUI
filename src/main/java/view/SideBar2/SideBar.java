@@ -19,14 +19,16 @@ public class SideBar extends JPanel {
     private JButton darkBtn;
 
     private JPanel topPanel;
+    private JPanel center;
     private JPanel bottomPanel;
 
+
     public SideBar() {
-        UIManager.put("Panel.background", Color.decode("#FFFFFF"));
+//        UIManager.put("Panel.background", Color.decode("#FFFFFF"));
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(230, 100));
 
-        JPanel container = new DropShadowCreator(0, 0, 0, 10);
+        var container = new DropShadowCreator(0, 0, 0, 10);
         container.setLayout(new BorderLayout());
         container.setBackground(Color.GREEN);
 
@@ -35,12 +37,12 @@ public class SideBar extends JPanel {
 
         this.add(container, BorderLayout.CENTER);
         container.add(topPanel, BorderLayout.NORTH);
-        var center = new JPanel();
+        center = new JPanel();
         center.setBackground(Color.decode("#FFFFFF"));
         container.add(center, BorderLayout.CENTER);
         container.add(bottomPanel, BorderLayout.SOUTH);
 
-        UIManager.put("Panel.background", null);
+//        UIManager.put("Panel.background", null);
     }
 
     public void overviewBtnNavigateListener(ActionListener listener) {
@@ -69,16 +71,18 @@ public class SideBar extends JPanel {
     private void initTop() {
         topPanel = new JPanel(new GridLayout(4, 1));
 
-        overviewBtn = UICreator.createButton("Overview", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/homeblack.png", 28, 28));
+        UIManager.put("Button.background", Color.WHITE);
+
+        overviewBtn = UICreator.createButton(false,"Overview", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/homeblack.png", 28, 28), 0,0);
         UICreator.configureTransparentButton(overviewBtn);
         configureButton(overviewBtn);
-        accountsBtn = UICreator.createButton("Accounts", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/accounts.png", 28, 28));
+        accountsBtn = UICreator.createButton(false,"Accounts", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/accounts.png", 28, 28), 0, 0);
         UICreator.configureTransparentButton(accountsBtn);
         configureButton(accountsBtn);
-        paymentsBtn = UICreator.createButton("Payments History", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/history.png", 28, 28));
+        paymentsBtn = UICreator.createButton(false,"Payments History", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/history.png", 28, 28), 0 ,0);
         UICreator.configureTransparentButton(paymentsBtn);
         configureButton(paymentsBtn);
-        billingBtn = UICreator.createButton("Billing Tracker", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/bill_track.png", 28, 28));
+        billingBtn = UICreator.createButton(false, "Billing Tracker", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/bill_track.png", 28, 28),0, 0);
         UICreator.configureTransparentButton(billingBtn);
         configureButton(billingBtn);
 
@@ -86,17 +90,20 @@ public class SideBar extends JPanel {
         topPanel.add(wrapButtonWithPadding(accountsBtn));
         topPanel.add(wrapButtonWithPadding(paymentsBtn));
         topPanel.add(wrapButtonWithPadding(billingBtn));
+
+        UIManager.put("Button.background", null);
     }
 
     private void initBottom() {
         bottomPanel = new JPanel(new GridBagLayout());
         bottomPanel.setPreferredSize(new Dimension(getWidth(), 80));
+        bottomPanel.setBackground(Color.WHITE);
 
-        var container = new RoundedPanel(new BorderLayout(), 35, Color.BLACK);
+        var container = new RoundedPanel(new BorderLayout(), 40, Color.BLACK);
         container.setPreferredSize(new Dimension(60, 20));
         container.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
-        lightBtn = new RoundedButton(UICreator.createImage("/icons/sidebar/light.png", 15, 15), "Light");
+        lightBtn = new RoundedButton(UICreator.createImage("/icons/sidebar/light.png", 15, 15), "Light", 30, 30);
         lightBtn.setPreferredSize(new Dimension(83, 35));
         lightBtn.setBackground(Color.WHITE);
         lightBtn.setFocusable(false);
@@ -104,7 +111,7 @@ public class SideBar extends JPanel {
         lightBtn.setBorder(null);
         lightBtn.setContentAreaFilled(false);
 
-        darkBtn = new RoundedButton(UICreator.createImage("/icons/sidebar/dark.png", 30, 30), "Dark");
+        darkBtn = new RoundedButton(UICreator.createImage("/icons/sidebar/dark.png", 30, 30), "Dark", 30 ,30);
         darkBtn.setPreferredSize(new Dimension(83, 35));
         darkBtn.setForeground(Color.BLACK);
         darkBtn.setBackground(Color.BLACK);
@@ -116,6 +123,7 @@ public class SideBar extends JPanel {
         darkBtn.setFocusPainted(false);
 
         darkBtn.setLayout(new BorderLayout());
+
 
         var panelInside = new JPanel(new BorderLayout());
         panelInside.setPreferredSize(new Dimension(30, 30));
@@ -140,4 +148,5 @@ public class SideBar extends JPanel {
         button.setVerticalTextPosition(SwingConstants.CENTER);
 
     }
+
 }

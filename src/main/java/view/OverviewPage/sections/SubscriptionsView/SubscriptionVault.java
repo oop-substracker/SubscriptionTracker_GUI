@@ -21,7 +21,7 @@ public class SubscriptionVault extends JPanel {
 
         for (Subscription vault : subscriptionList) {
             var vaultContainer = new JPanel();
-            vaultContainer.setPreferredSize(new Dimension(280, 260));
+            vaultContainer.setPreferredSize(new Dimension(275, 255));
             vaultContainer.setLayout(new BorderLayout());
 
 
@@ -62,11 +62,11 @@ public class SubscriptionVault extends JPanel {
             bottomPanel.setPreferredSize(new Dimension(getWidth(), 45));
 
             String platform = "<html><div style='font-size:15px; font-weight:bold;'>" + vault.getPlatform() + "</html>";
-            var bottomLeftBtn = UICreator.createButton(platform, 13, Font.PLAIN, UICreator.createImage("/icons/assets/spotify.png", 35, 35));
+            var bottomLeftBtn = UICreator.createButton(false, platform, 13, Font.PLAIN, UICreator.createImage("/icons/assets/spotify.png", 35, 35), 0, 0);
             configureTransparentButton(bottomLeftBtn);
 
             String text = "<html><div style='text-align:center; font-size: 9px; font-weight:bold;'>Cancel<br>Subscription</div></html>";
-            var bottomRightBtn = UICreator.createButton(text, 13, Font.PLAIN, null);
+            var bottomRightBtn = UICreator.createButton(false, text, 13, Font.PLAIN, null, 0, 0);
             configureTransparentButton(bottomRightBtn);
 
             bottomPanel.add(bottomLeftBtn, BorderLayout.WEST);
@@ -78,6 +78,7 @@ public class SubscriptionVault extends JPanel {
 
             vaultContainer.add(vaultContent, BorderLayout.CENTER);
             this.add(vaultContainer);
+            this.add(Box.createHorizontalStrut(0));
         }
 
         UIManager.put("Panel.background", null);

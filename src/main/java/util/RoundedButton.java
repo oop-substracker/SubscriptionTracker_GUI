@@ -5,18 +5,23 @@ import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
 public class RoundedButton extends JButton {
-    private static final int ARC_WIDTH = 28;
-    private static final int ARC_HEIGHT = 28;
+    private  int ARC_WIDTH;
+    private  int ARC_HEIGHT;
 
-    public RoundedButton(String text) {
+    public RoundedButton(String text,  int width, int height) {
         super(text);
         setContentAreaFilled(false);
+        ARC_WIDTH = width;
+        ARC_HEIGHT = height;
     }
 
-    public RoundedButton(ImageIcon icon, String text) {
+    public RoundedButton(ImageIcon icon, String text, int width, int height) {
         super(icon);
         setText(text);
         setContentAreaFilled(false);
+        ARC_WIDTH = width;
+        ARC_HEIGHT = height;
+
     }
 
     @Override

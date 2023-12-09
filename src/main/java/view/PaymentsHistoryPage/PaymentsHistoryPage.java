@@ -11,7 +11,7 @@ public class PaymentsHistoryPage extends JPanel {
     private JLabel title;
     private MaterialTabbedPane tabbedPane;
 
-    String[] platForms = { "Spotify", "Netflix" };
+    String[] platforms = { "Spotify", "Netflix" };
 
     public PaymentsHistoryPage() {
         init();
@@ -24,13 +24,13 @@ public class PaymentsHistoryPage extends JPanel {
     private void initTabbedPane() {
         tabbedPane = new MaterialTabbedPane();
         tabbedPane.setFont(UICreator.getRegularFont().deriveFont(Font.PLAIN, 16));
-        tabbedPane.setBackground(Color.RED);
 
-        for (String platform : platForms) {
-            JPanel container = new JPanel(new BorderLayout());
+        for (String platform : platforms) {
+            JPanel tabContent = new JPanel(new BorderLayout());
 
-            JPanel header = new RoundedPanel(new GridLayout(1, 4, 10, 0), 10, Color.BLACK);
-            header.setPreferredSize(new Dimension(getWidth(), 40));
+            // Header Panel
+            JPanel headerPanel = new RoundedPanel(new GridLayout(1, 4, 10, 0), 10, Color.BLACK);
+            headerPanel.setPreferredSize(new Dimension(getWidth(), 40));
 
             UIManager.put("Label.foreground", Color.WHITE);
 
@@ -44,45 +44,48 @@ public class PaymentsHistoryPage extends JPanel {
             subsDue.setHorizontalAlignment(SwingConstants.CENTER);
             paymentStatus.setHorizontalAlignment(SwingConstants.CENTER);
 
-            header.add(paymentDate);
-            header.add(paymentCost);
-            header.add(subsDue);
-            header.add(paymentStatus);
+            headerPanel.add(paymentDate);
+            headerPanel.add(paymentCost);
+            headerPanel.add(subsDue);
+            headerPanel.add(paymentStatus);
 
             UIManager.put("Label.foreground", null);
 
+            tabContent.add(headerPanel, BorderLayout.NORTH);
 
-            /* platform shits */
-            JPanel infoContainer = new JPanel();
-            infoContainer.setLayout(new BoxLayout(infoContainer, BoxLayout.Y_AXIS));
-            JPanel panel = new RoundedPanel(new GridLayout(1, 4, 10, 0), 10,Color.WHITE);
-            panel.setPreferredSize(new Dimension(panel.getPreferredSize().width, 60));
+            // Content Panel
+            JPanel contentPanel = new JPanel();
+            contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+            contentPanel.add(Box.createVerticalStrut(10));
 
-            UIManager.put("Label.foreground", Color.BLACK);
+            for (int i = 1; i <= 5; i++) {
+                JPanel panel = new RoundedPanel(new GridLayout(1, 4, 10, 0), 10, Color.WHITE);
+                panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60)); // Set maximum height
 
-            JLabel paymentDateValue = UICreator.createLabel("November 29, 2023", 14, Font.PLAIN);
-            JLabel paymentCostValue = UICreator.createLabel("$3.25", 14, Font.PLAIN);
-            JLabel subsDueValue = UICreator.createLabel("December 29, 2023", 14, Font.PLAIN);
-            JLabel paymentStatusValue = UICreator.createLabel("Pending...", 14, Font.PLAIN);
+                UIManager.put("Label.foreground", Color.BLACK);
 
-            paymentDateValue.setHorizontalAlignment(SwingConstants.CENTER);
-            paymentCostValue.setHorizontalAlignment(SwingConstants.CENTER);
-            subsDueValue.setHorizontalAlignment(SwingConstants.CENTER);
-            paymentStatusValue.setHorizontalAlignment(SwingConstants.CENTER);
+                JLabel paymentDateValue = UICreator.createLabel("November 29, 2023", 14, Font.PLAIN);
+                JLabel paymentCostValue = UICreator.createLabel("$3.25", 14, Font.PLAIN);
+                JLabel subsDueValue = UICreator.createLabel("December 29, 2023", 14, Font.PLAIN);
+                JLabel paymentStatusValue = UICreator.createLabel("Pending...", 14, Font.PLAIN);
 
-            panel.add(paymentDateValue);
-            panel.add(paymentCostValue);
-            panel.add(subsDueValue);
-            panel.add(paymentStatusValue);
+                paymentDateValue.setHorizontalAlignment(SwingConstants.CENTER);
+                paymentCostValue.setHorizontalAlignment(SwingConstants.CENTER);
+                subsDueValue.setHorizontalAlignment(SwingConstants.CENTER);
+                paymentStatusValue.setHorizontalAlignment(SwingConstants.CENTER);
 
-            infoContainer.add(panel);
+                panel.add(paymentDateValue);
+                panel.add(paymentCostValue);
+                panel.add(subsDueValue);
+                panel.add(paymentStatusValue);
 
-            container.add(header, BorderLayout.NORTH);
-            container.add(infoContainer, BorderLayout.CENTER);
+                contentPanel.add(panel);
+                contentPanel.add(Box.createVerticalStrut(10));
+            }
 
-            UIManager.put("Label.foreground", null);
+            tabContent.add(contentPanel, BorderLayout.CENTER);
 
-            tabbedPane.add(platform, container);
+            tabbedPane.add(platform, tabContent);
         }
     }
 

@@ -15,7 +15,7 @@ import view.AccountsPage.AccountsPage;
 import view.PaymentsHistoryPage.PaymentsHistoryPage;
 import view.BillingPage.BillingPage;
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame  {
 
     private Register register;
     private Login login;
@@ -41,6 +41,7 @@ public class MainFrame extends JFrame {
         setMinimumSize(new Dimension(800, this.getHeight()));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
+
 
         this.add(register, BorderLayout.CENTER);
 
@@ -112,6 +113,7 @@ public class MainFrame extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private static void setUIFont(Font font) {

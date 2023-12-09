@@ -1,14 +1,13 @@
 package view.AuthPage;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
-
-import util.DropShadowCreator;
+import util.DropShadowCreatorForAllSides;
 import util.UICreator;
-
 import controller.Controller;
+import model.UserAccount.User;
+
 
 public class Register extends JPanel {
 
@@ -22,7 +21,6 @@ public class Register extends JPanel {
     private JTextField password;
 
     private JButton registerBtn;
-    private ActionListener registerButtonListener;
 
     public Register() {
 
@@ -47,7 +45,7 @@ public class Register extends JPanel {
 
         UIManager.put("Label.foreground", Color.decode("#b0bec3"));
 
-        JPanel container = new DropShadowCreator(5, 0, 5, 5);
+        JPanel container = new DropShadowCreatorForAllSides(5, 5, 5, 5);
         container.setLayout(new GridBagLayout());
         container.setBounds(-2, 60, 320, 540);
 
@@ -90,24 +88,14 @@ public class Register extends JPanel {
         rightSec.setPreferredSize(new Dimension(600, 100));
         rightSec.setLayout(null);
 
-//        rightSec.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE_CLASS, "rightSide");
         UIManager.put("TextField.placeholderForeground", Color.decode("#304D6D"));
 
         JPanel mainSection = new JPanel(new BorderLayout());
         mainSection.setBounds(90, 60,530,540);
 
-//        mainSection.setBackground(Color.GREEN);
-        JPanel tempCont = new DropShadowCreator(5, 5, 5, 0);
+        JPanel tempCont = new DropShadowCreatorForAllSides(5, 5, 5, 5);
         tempCont.setLayout(new GridBagLayout());
         tempCont.setPreferredSize(new Dimension(100, 100));
-
-
-        /* DROP SHADOW  */
-        Color shadowColor = Color.decode("#a1b4c5");
-        Insets shadowInsets = new Insets(6, 6, 6, 0);
-        float shadowOpacity = 1.5f;
-//        Border shadowBorder = new com.formdev.flatlaf.ui.FlatDropShadowBorder(shadowColor, shadowInsets, shadowOpacity);
-//        mainSection.setBorder(shadowBorder);
 
         JPanel container = new JPanel(new GridBagLayout());
         container.setPreferredSize(new Dimension(350, 300));
@@ -116,34 +104,28 @@ public class Register extends JPanel {
 
         fName = UICreator.createTxtField("First Name");
         fName.setBackground(Color.decode("#C5F2BD"));
-//        fName.putClientProperty(com.formdev.flatlaf.FlatClientProperties.PLACEHOLDER_TEXT, "First Name");
         fName.setMargin(new Insets(5, 20, 5, 5));
 
         lName = UICreator.createTxtField("Last Name");
         lName.setBackground(Color.decode("#C5F2BD"));
-//        lName.putClientProperty(com.formdev.flatlaf.FlatClientProperties.PLACEHOLDER_TEXT, "Last Name");
         lName.setMargin(new Insets(5, 20, 5, 5));
 
         email = UICreator.createTxtField("Email");
         email.setBackground(Color.decode("#C5F2BD"));
-//        email.putClientProperty(com.formdev.flatlaf.FlatClientProperties.PLACEHOLDER_TEXT, "Email");
         email.setMargin(new Insets(5, 20, 5, 5));
 
         password = UICreator.createTxtField("Password");
         password.setBackground(Color.decode("#C5F2BD"));
-//        password.putClientProperty(com.formdev.flatlaf.FlatClientProperties.PLACEHOLDER_TEXT, "Password");
+
         password.setMargin(new Insets(5, 20, 5, 5));
 
-        registerBtn = UICreator.createButton("Create Account", 13, Font.PLAIN, null);
-//        registerBtn.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE, "" +
-//                "font: bold 13;" +
-//                "[light]foreground: #BDD4E7;" +
-//                "[light]background: #212227;");
+        registerBtn = UICreator.createButton(true,"Create Account", 13, Font.PLAIN, null, 50, 50);
+        registerBtn.setMargin(new Insets(1, 8, 1, 8));
+        registerBtn.setBorderPainted(false);
 
-        registerBtn.addActionListener(new Controller.AuthLoginListener(registerBtn));
-
-        String text = "<html><div style='text-align:center; '>Don't have and account?<br><span style='text-decoration:underline; color:#000000; '>Sign Up</span></div></html>";
+        String text = "<html><div style='text-align:center; '>Already have an account?<br><span style='text-decoration:underline; color:#000000; '>Sign In</span></div></html>";
         JLabel privacy = UICreator.createLabel(text, 13, Font.BOLD);
+        privacy.addMouseListener(new Controller.CustomMouseListener(privacy, null));
 
         UICreator.createComp(container, signLabel, 1, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, 0,0 , 0, 0, 120);
         UICreator.createComp(container, fName, 0, 1, 4, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10,0 , 0, 0, 120);
@@ -158,9 +140,14 @@ public class Register extends JPanel {
         UICreator.createComp(rightSec, mainSection, 0, 0, 1, 1, 0.0, 0.1, GridBagConstraints.CENTER, GridBagConstraints.NONE,0,0 , 0, 0, 120);
 
         UIManager.put("Label.foreground", null);
+
+        /* REGISTER  */
+        registerBtn.addActionListener(new Controller.AuthLoginListener(registerBtn));
     }
 
-    public void addRegisterButtonListener(ActionListener listener) {
-        registerButtonListener = listener;
+    public void setUser(User user) {
+        user.setEmail(email.getText());
+        user.setPassword(password.getText());
     }
+
 }

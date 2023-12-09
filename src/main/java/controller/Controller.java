@@ -1,20 +1,20 @@
 package controller;
 
-import model.DefaultEntries.Entry;
-import model.Subscriptions.Subscription;
-import model.Subscriptions.SubscriptionList;
-import view.AuthPage.Login;
-import view.AuthPage.Register;
-import view.MainFrame;
-import view.SideBar2.SideBar;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import model.DefaultEntries.Entry;
+import model.Subscriptions.Subscription;
+import model.Subscriptions.SubscriptionList;
+import model.UserAccount.User;
+import model.DefaultEntries.EntryList;
 
-
-/* ========== */
+import view.AccountsPage.components.VaultModal;
+import view.AuthPage.Login;
+import view.AuthPage.Register;
+import view.MainFrame;
+import view.SideBar2.SideBar;
 import view.OverviewPage.Overview;
 import view.OverviewPage.sections.SubscriptionsView.SubsView;
 import view.OverviewPage.sections.CreateEntryView.CreateEntryView;
@@ -25,7 +25,11 @@ import view.AccountsPage.AccountsPage;
 import view.PaymentsHistoryPage.PaymentsHistoryPage;
 import view.BillingPage.BillingPage;
 
-import model.DefaultEntries.EntryList;
+import controller.AuthRequestHandler.Authentication;
+import controller.AuthRequestHandler.AuthenticationService;
+import controller.SubscriptionsRequestHandler.SubscriptionHandler;
+import controller.SubscriptionsRequestHandler.SubscriptionService;
+
 
 public class Controller  {
 
@@ -34,8 +38,14 @@ public class Controller  {
     private static Login login;
     private static SideBar sideBar;
 
-    //
-//    private GetRequestHandler getRequestHandler;
+    /* === Auth Handler ( auth service dependency injection ) === */
+    private static Authentication authentication;
+    private AuthenticationService authenticationService;
+
+    /* === Subscription Handler ( subs service dependency injection ) === */
+    private static SubscriptionHandler subscriptionHandler;
+    private SubscriptionService subscriptionService;
+
 
     // models
     private static SubscriptionList subscriptionList;
@@ -50,9 +60,12 @@ public class Controller  {
     private static AccountsPage accountsPage;
     private static PaymentsHistoryPage paymentsHistoryPage;
     private static BillingPage billingPage;
+    private static VaultModal vaultModal;
 
     private static EntryList entryList;
     private static EntryItemView entryItemView;
+
+    private static User user;
 
     private SubscriptionVault subscriptionVault;
 
@@ -62,12 +75,13 @@ public class Controller  {
         register = frame.getRegister();
         login = frame.getLogin();
         sideBar = frame.getSideBar();
-        entryList = new EntryList();
+        entryList = new     EntryList();
         overview = frame.getOverview();
         subsView = overview.getSubsView();
         accountsPage = frame.getAccountsPage();
         paymentsHistoryPage = frame.getPaymentsHistoryPage();
         billingPage = frame.getBillingPage();
+        vaultModal = accountsPage.getVaultModal();
 
         subscriptionVault = subsView.getSubscriptionVault();
 
@@ -82,7 +96,17 @@ public class Controller  {
 
         attachListeners();
 
+        user = new User();
+
+        authenticationService = new AuthenticationService();
+        authentication = new Authentication(authenticationService);
+
+        subscriptionService = new SubscriptionService();
+        subscriptionHandler = new SubscriptionHandler(subscriptionService);
+
     }
+
+
 
     private static void onLoad() {
         createEntryView.getEntryItemView().updateEntriesView(entryList.getEntryList());
@@ -105,40 +129,15 @@ public class Controller  {
 
     /**
      * Loads data from the backend during the application initialization.
-     * Invokes {@link GetRequestHandler#fetchData(String)} and updates UI components with the parsed data.
+     * Invokes {@link } and updates UI components with the parsed data.
      * Prints error messages to the console if fetching or parsing fails.
      */
-//    private void onLoad() {
-//        String responseData = getRequestHandler.fetchData("http://localhost:8080/api/subscriptions");
-//
-//        if (responseData != null) {
-//            // Parse the JSON data into a list of Subscription objects
-//            List<Subscription> responseBody = getRequestHandler.parseJsonToSubscriptionList(responseData);
-//            populateSubscriptionModel(responseBody);
-//
-//            // Update the UI components with the parsed data
-////            updateView();
-//        } else {
-//            // Handle error or notify the user
-//            System.out.println("Failed to fetch data from the backend.");
-//        }
-//    }
-//
-//    private void populateSubscriptionModel(List<Subscription> response) {
-//        SubscriptionList.setSubscriptionList(response);
-//    }
-
-//    private void updateView() {
-//        homeView.getSubsView().updateSubscriptionVaults(SubscriptionList.getSubscriptionList());
-//        accountsView.updateAccountsView(SubscriptionList.getSubscriptionList());
-//        paymentsHistoryView.getVaultsView().updateSubVaults(SubscriptionList.getSubscriptionList());
-//        homeView.getTableInfoView().updateTableData(SubscriptionList.getSubscriptionList());
-//    }
 
 
     /* ================================================================== */
      public static class AuthLoginListener implements ActionListener {
          private JButton button;
+
 
         public AuthLoginListener(JButton button) {
             this.button = button;
@@ -149,28 +148,53 @@ public class Controller  {
             if (e.getSource() instanceof JButton) {
                 switch (button.getText()) {
                     case "Create Account":
-                        register.setVisible(false);
-                        login.setVisible(true);
-                        frame.add(login, BorderLayout.CENTER);
+                        register.setUser(Controller.user);
+                        authentication.registerUser(user);
                         break;
                     case "Sign In":
-                        login.setVisible(false);
-                        frame.setSize(new Dimension(1450, 760));
-                        frame.setLocationRelativeTo(null);
-                        frame.add(sideBar, BorderLayout.WEST);
-                        frame.add(overview, BorderLayout.CENTER);
+                        login.setUser(Controller.user);
+                        showUiOnCreate();
+                        authentication.loginUser(user);
 
-                        SwingUtilities.invokeLater(() -> {
-                            addCardPanel();
-                            frame.add(frame.getCardPanel(), BorderLayout.CENTER);
-                        });
+                        if (authentication.getResponseCode() == 200) {
+                            User authenticatedUser = authentication.getUser();
+                            subscriptionHandler.getSubscriptions(authenticatedUser.getId());
+                            showUIOnLogin();
 
-                        frame.revalidate();
-                        frame.repaint();
+                        } else  {
+                            login.getErrorLabel().setVisible(true);
+                            login.getErrorLabel().setText(authentication.getError());
+                            System.out.println("Error mate");
+                        }
                         break;
                 }
             }
 
+        }
+
+        private void showUIOnLogin() {
+            login.setVisible(false);
+            frame.setSize(new Dimension(1450,  760));
+            frame.setLocationRelativeTo(null);
+            frame.add(sideBar, BorderLayout.WEST);
+            frame.add(overview, BorderLayout.CENTER);
+
+            addCardPanel();
+            frame.add(frame.getCardPanel(), BorderLayout.CENTER);
+
+            frame.revalidate();
+            frame.repaint();
+        }
+
+        private void showUiOnCreate() {
+            register.setVisible(false);
+            login.setVisible(true);
+            frame.add(login, BorderLayout.CENTER);
+        }
+
+
+        public User getUser() {
+            return user;
         }
     }
 
@@ -278,19 +302,28 @@ public class Controller  {
         }
     }
 
-//    public static class CustomMouseListener extends MouseAdapter {
-//
-//        Subscription subs;
-//
-//        public CustomMouseListener(Subscription subs) {
-//            this.subs = subs;
-//        }
-//
-//        public void mouseClicked(MouseEvent e) {
-//            vaultModal = new VaultModal(SwingUtilities.getWindowAncestor(accountsView), subs);
-//            vaultModal.setVisible(true);
-//
-//        }
-//    }
+    public static class CustomMouseListener extends MouseAdapter {
+
+        Component comp;
+        Subscription subs;
+
+        public CustomMouseListener(Component comp, Subscription subs) {
+            this.subs = subs;
+            this.comp = comp;
+        }
+
+        public void mouseClicked(MouseEvent e) {
+
+            if (comp instanceof JLabel) {
+                register.setVisible(false);
+                login.setVisible(true);
+                frame.add(login, BorderLayout.CENTER);
+            } else {
+                vaultModal = new VaultModal(SwingUtilities.getWindowAncestor(accountsPage), subs);
+                vaultModal.setVisible(true);
+            }
+
+        }
+    }
 
 }

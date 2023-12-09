@@ -17,6 +17,7 @@ public class Overview extends JPanel {
         header = new Header();
         subsView = new SubsView();
         createEntryView = new CreateEntryView();
+
         init();
     }
 
@@ -27,6 +28,7 @@ public class Overview extends JPanel {
         this.add(header, BorderLayout.NORTH);
         this.add(subsView, BorderLayout.CENTER);
         this.add(createEntryView, BorderLayout.SOUTH);
+
     }
 
     public SubsView getSubsView() {

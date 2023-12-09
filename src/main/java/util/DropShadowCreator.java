@@ -17,39 +17,41 @@ public class DropShadowCreator extends JPanel {
         Border border = BorderFactory.createEmptyBorder(top, left, bottom, right);
         this.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), border));
         this.setLayout(new BorderLayout());
+
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-        int shadowSize = Math.max(Math.max(top, left), Math.max(bottom, right));
-        int topOpacity = 80;
+        int shadowOpacity = 80;
 
-        for (int i = 0; i < shadowSize; i++) {
-            if (i < top && i < getHeight() - bottom) {
-                int alpha = (int) ((topOpacity / (double) top) * i);
-                g.setColor(new Color(0, 0, 0, alpha));
-                g.drawLine(0, i, getWidth() - right - 1, i);
-            }
+        Graphics2D g2d = (Graphics2D) g.create();
 
-            if (i < left && i < getWidth() - right) {
-                int alpha = (int) ((topOpacity / (double) left) * i);
-                g.setColor(new Color(0, 0, 0, alpha));
-                g.drawLine(i, 0, i, getHeight() - bottom - 1);
-            }
-
-            if (i < bottom && i < getHeight() - top) {
-                int alpha = (int) ((topOpacity / (double) bottom) * i);
-                g.setColor(new Color(0, 0, 0, alpha));
-                g.drawLine(0, getHeight() - i - 1, getWidth() - right - 1, getHeight() - i - 1);
-            }
-
-            if (i < right && i < getWidth() - left) {
-                int alpha = (int) ((topOpacity / (double) right) * i);
-                g.setColor(new Color(0, 0, 0, alpha));
-                g.drawLine(getWidth() - i - 1, 0, getWidth() - i - 1, getHeight() - top - 1);
-            }
+        // Top shadow
+        for (int i = 0; i < top; i++) {
+            g2d.setColor(new Color(0, 0, 0, (shadowOpacity / top) * i));
+            g2d.drawLine(0, i, getWidth() - 1, i);
         }
 
-        //
+        // Left shadow
+        for (int i = 0; i < left; i++) {
+            g2d.setColor(new Color(0, 0, 0, (shadowOpacity / left) * i));
+            g2d.drawLine(i, 0, i, getHeight() - 1);
         }
+
+        // Bottom shadow
+        for (int i = 0; i < bottom; i++) {
+            g2d.setColor(new Color(0, 0, 0, (shadowOpacity / bottom) * i));
+            g2d.drawLine(0, getHeight() - 1 - i, getWidth() - 1, getHeight() - 1 - i);
+        }
+
+        // Right shadow
+        for (int i = 0; i < right; i++) {
+            g2d.setColor(new Color(0, 0, 0, (shadowOpacity / right) * i));
+            g2d.drawLine(getWidth() - 1 - i, 0, getWidth() - 1 - i, getHeight() - 1);
+        }
+
+        g2d.dispose();
     }
+
+
+}

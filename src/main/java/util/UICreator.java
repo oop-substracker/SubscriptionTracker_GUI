@@ -45,7 +45,8 @@ public class UICreator {
     }
 
     public static JTextField createTxtField(String placeholder) {
-        JTextField textField = new JTextField(placeholder);
+        JTextField textField = new RoundedJTextField();
+        textField.setText(placeholder);
         textField.setFont(new Font(regularFont.getFamily(), Font.PLAIN, 13));
 
         textField.addFocusListener(new FocusAdapter() {
@@ -80,6 +81,8 @@ public class UICreator {
         return textField;
     }
 
+
+
     public static ImageIcon createImage(String path, int width, int height) {
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(UICreator.class.getResource(path)));
         return new ImageIcon(icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
@@ -89,8 +92,15 @@ public class UICreator {
         return new ImageIcon(image.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
     }
 
-    public static JButton createButton(String text, int fontSize, int weight, ImageIcon icon) {
-        JButton button = new JButton();
+    public static JButton createButton(boolean rounded, String text, int fontSize, int weight, ImageIcon icon, int arcWidth, int arcHeight) {
+        JButton button;
+
+        if (rounded) {
+            button =new RoundedButton(text, arcWidth, arcHeight);
+            configureTransparentButton(button);
+        } else {
+            button = new JButton(text);
+        }
         if (icon != null)
             button.setIcon(icon);
         button.setText(text);
@@ -102,7 +112,7 @@ public class UICreator {
     public static void configureTransparentButton(AbstractButton button) {
         button.setMargin(new Insets(0, -1, 0, 0));
 //        button.setBorderPainted(false);
-        button.setContentAreaFilled(false);
+//        button.setContentAreaFilled(false);
         button.setFocusPainted(false);
     }
 
@@ -117,6 +127,25 @@ public class UICreator {
         gc.weighty = weightY;
         gc.ipady = ipady;
 //        gc.ipadx = 50;
+        gc.anchor = anchor;
+        gc.insets = new Insets(top, left, bottom, right);
+        gc.fill = fill;
+
+
+        panel.add(comp, gc);
+    }
+
+    public static void createComp(JPanel panel, Component comp, int xPos, int yPos, int gridWidth, int gridHeight, double weightX, double weightY, int anchor, int fill, int top, int left, int bottom, int right, int ipady, int  ipadx) {
+        GridBagConstraints gc = new GridBagConstraints();
+
+        gc.gridx = xPos;
+        gc.gridy = yPos;
+        gc.gridwidth = gridWidth;
+        gc.gridheight = gridHeight;
+        gc.weightx = weightX;
+        gc.weighty = weightY;
+        gc.ipady = ipady;
+        gc.ipadx = 50;
         gc.anchor = anchor;
         gc.insets = new Insets(top, left, bottom, right);
         gc.fill = fill;

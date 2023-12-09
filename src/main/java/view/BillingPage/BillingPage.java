@@ -26,12 +26,14 @@ public class BillingPage extends JPanel {
 
     public void updateTabbedPaneData(List<Subscription> subscriptionList) {
 
+        JPanel infoContainer = new JPanel();
+        infoContainer.setLayout(new BoxLayout(infoContainer, BoxLayout.Y_AXIS));
+        infoContainer.add(Box.createVerticalStrut(10));
+
         for (Subscription subscription : subscriptionList) {
             /* platform shits */
-            JPanel infoContainer = new JPanel();
-            infoContainer.setLayout(new BoxLayout(infoContainer, BoxLayout.Y_AXIS));
             JPanel panel = new RoundedPanel(new GridLayout(1, 4, 10, 0), 10,Color.WHITE);
-            panel.setPreferredSize(new Dimension(panel.getPreferredSize().width, 60));
+            panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
 
             UIManager.put("Label.foreground", Color.BLACK);
 
@@ -63,6 +65,7 @@ public class BillingPage extends JPanel {
             panel.add(status);
 
             infoContainer.add(panel);
+            infoContainer.add(Box.createVerticalStrut(10));
 
             container.add(infoContainer, BorderLayout.CENTER);
 

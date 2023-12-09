@@ -2,7 +2,6 @@ package view.AccountsPage.components;
 
 import controller.Controller;
 import model.Subscriptions.Subscription;
-import util.RoundedPanel;
 import util.RoundedPanelWithShadow;
 import util.UICreator;
 
@@ -33,13 +32,11 @@ public class AccountsVault extends JPanel {
             email.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.decode("#AAB9CF")));
             email.setHorizontalAlignment(JLabel.CENTER);
             email.setBorder(BorderFactory.createCompoundBorder(email.getBorder(), new EmptyBorder(5, 5, 5, 5)));
-//            email.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE_CLASS, "myButton");
 
-//            vault.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE_CLASS, "myRoundPanel");
             vault.add(image, BorderLayout.CENTER);
             vault.add(email, BorderLayout.SOUTH);
 
-//            vault.addMouseListener(new Controller.CustomMouseListener(account));
+            vault.addMouseListener(new Controller.CustomMouseListener(this, account));
 
             this.add(vault);
 
