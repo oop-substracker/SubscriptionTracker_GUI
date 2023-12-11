@@ -10,7 +10,6 @@ import model.Subscriptions.constants.BillingPeriod;
 import util.DropShadowCreatorForAllSides;
 import util.RoundedComboBox;
 import util.UICreator;
-import util.DropShadowCreator;
 import controller.Controller;
 import model.Subscriptions.Subscription;
 
@@ -54,7 +53,6 @@ public class EntryCreationPage extends JPanel {
 
     private void initForm() {
 
-
         formPanel = new JPanel(new GridBagLayout());
 
         String text = "<html><div style='text-align:center;'>Account Creation<br><span style='font-size:10px;'>We are glad to track your new subscription!</span></div></html>";
@@ -73,8 +71,8 @@ public class EntryCreationPage extends JPanel {
         createBtn = new JButton("Create Entry");
         cancelBtn = new JButton("Cancel Entry");
 
-        createBtn.addActionListener(new Controller.EntryCreationActionListeners(createBtn, new Subscription(email.getText(), entry.getPlatform(), time.getText(), new Billing(handleBillingPeriod((String) Objects.requireNonNull(subscriptionPlan.getSelectedItem())),2.25, 2.25, 39.00), "December 14, 2023")));
-        cancelBtn.addActionListener(new Controller.EntryCreationActionListeners(cancelBtn, null));
+        createBtn.addActionListener(new Controller.EntryCreationActionListeners(createBtn));
+        cancelBtn.addActionListener(new Controller.EntryCreationActionListeners(cancelBtn));
 
         UICreator.createComp(formPanel, label, 0, 0, 4, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 50,0,5, 0);
         UICreator.createComp(formPanel, email, 0, 1, 4, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, 40, 50,0,5, 30);
@@ -83,8 +81,6 @@ public class EntryCreationPage extends JPanel {
         UICreator.createComp(formPanel, time, 0, 4, 4, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 50,0,5, 30);
         UICreator.createComp(formPanel, createBtn, 0, 5, 1, 1, 1, 1,GridBagConstraints.WEST, GridBagConstraints.BOTH, 10, 50,0,5, 30);
         UICreator.createComp(formPanel, cancelBtn, 2, 5, 1, 1, 1, 1,GridBagConstraints.EAST, GridBagConstraints.BOTH, 10, 50,0,5, 30);
-
-
     }
 
     private  BillingPeriod handleBillingPeriod(String plan) {
@@ -106,8 +102,18 @@ public class EntryCreationPage extends JPanel {
         return billingPeriod;
     }
 
+    public void setSubcription(Subscription subscription) {
+        subscription.setUserId((Controller.getUser().getId()));
+        subscription.setEmail(email.getText());
+        subscription.setPlatform(entry.getPlatform());
+        subscription.setTimeRemaining(time.getText());
+        subscription.setBilling( new Billing(handleBillingPeriod((String) Objects.requireNonNull(subscriptionPlan.getSelectedItem())),2.25, 2.25, 39.00));
+        subscription.setDueDate("December 14, 2023");
+
+        System.out.println("user id: " + Controller.getUser().getId());
+    }
 
     private void initImage() {
-        image = new JLabel(UICreator.createImage("/icons/poster/netflix.jpg", 390, 500));
+        image = new JLabel(UICreator.createImage("/images/banners/netflix.jpg", 390, 500));
     }
 }

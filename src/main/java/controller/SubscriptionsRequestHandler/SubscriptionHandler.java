@@ -16,4 +16,8 @@ public class SubscriptionHandler {
     public List<Subscription> getSubscriptions(String userId) {
         return subscriptionsRepository.getMySubscriptions(userId);
     }
+
+    public Subscription createSubscription(Subscription subscription) {
+        return subscriptionsRepository.createMySubscription(subscription);
+    }
 }

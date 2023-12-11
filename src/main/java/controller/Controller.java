@@ -3,6 +3,7 @@ package controller;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 import model.DefaultEntries.Entry;
 import model.Subscriptions.Subscription;
@@ -46,10 +47,8 @@ public class Controller  {
     private static SubscriptionHandler subscriptionHandler;
     private SubscriptionService subscriptionService;
 
-
     // models
     private static SubscriptionList subscriptionList;
-
 
     private static EntryCreationPage entryCreationPage;
 
@@ -65,7 +64,10 @@ public class Controller  {
     private static EntryList entryList;
     private static EntryItemView entryItemView;
 
+    /* main model initiator */
     private static User user;
+    private static Subscription subscription;
+    /* main model initiator */
 
     private SubscriptionVault subscriptionVault;
 
@@ -75,7 +77,7 @@ public class Controller  {
         register = frame.getRegister();
         login = frame.getLogin();
         sideBar = frame.getSideBar();
-        entryList = new     EntryList();
+        entryList = new EntryList();
         overview = frame.getOverview();
         subsView = overview.getSubsView();
         accountsPage = frame.getAccountsPage();
@@ -92,11 +94,12 @@ public class Controller  {
         //
         subscriptionList = new SubscriptionList();
 
-        onLoad();
+//        onLoad();
 
         attachListeners();
 
         user = new User();
+        subscription = new Subscription();
 
         authenticationService = new AuthenticationService();
         authentication = new Authentication(authenticationService);
@@ -106,7 +109,13 @@ public class Controller  {
 
     }
 
+    public static User getUser() {
+        return user;
+    }
 
+    private static void setSubscriptionList(List<Subscription> subscriptions) {
+        SubscriptionList.setSubscriptionList(subscriptions);
+    }
 
     private static void onLoad() {
         createEntryView.getEntryItemView().updateEntriesView(entryList.getEntryList());
@@ -158,14 +167,21 @@ public class Controller  {
 
                         if (authentication.getResponseCode() == 200) {
                             User authenticatedUser = authentication.getUser();
-                            subscriptionHandler.getSubscriptions(authenticatedUser.getId());
+                            List<Subscription> subscriptions = subscriptionHandler.getSubscriptions(authenticatedUser.getId());
+                            if (subscriptions != null) {
+                                Controller.setSubscriptionList(subscriptions);
+                                System.out.println(subscriptionList);
+                                onLoad();
+                            }
                             showUIOnLogin();
+                            user.setId(authenticatedUser.getId());
 
                         } else  {
                             login.getErrorLabel().setVisible(true);
                             login.getErrorLabel().setText(authentication.getError());
                             System.out.println("Error mate");
                         }
+//                        showUIOnLogin();
                         break;
                 }
             }
@@ -271,11 +287,10 @@ public class Controller  {
     public static class EntryCreationActionListeners implements ActionListener {
 
         private JButton button;
-        private Subscription subscription;
+//        private Subscription subscription;
 
-        public EntryCreationActionListeners(JButton button, Subscription subscription) {
+        public EntryCreationActionListeners(JButton button) {
             this.button = button;
-            this.subscription = subscription;
         }
 
         @Override
@@ -287,6 +302,10 @@ public class Controller  {
                         entryCreationPage.setVisible(false);
                         overview.setVisible(true);
                         subscriptionList.addSubscription(subscription);
+
+                        entryCreationPage.setSubcription(Controller.subscription);
+                        /* == POST REQUEST == */
+                        System.out.println(subscriptionHandler.createSubscription(subscription));
 
                         SwingUtilities.invokeLater(Controller::onLoad);
                         break;

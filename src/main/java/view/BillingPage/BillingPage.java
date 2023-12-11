@@ -32,7 +32,7 @@ public class BillingPage extends JPanel {
 
         for (Subscription subscription : subscriptionList) {
             /* platform shits */
-            JPanel panel = new RoundedPanel(new GridLayout(1, 4, 10, 0), 10,Color.WHITE);
+            JPanel panel = new RoundedPanel(new GridLayout(1, 4, 10, 0), 10,Color.WHITE, false);
             panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
 
             UIManager.put("Label.foreground", Color.BLACK);
@@ -89,7 +89,7 @@ public class BillingPage extends JPanel {
 
     private void initTabHeader() {
 
-        JPanel header = new RoundedPanel(new GridLayout(1, 4, 10, 0), 10, Color.BLACK);
+        JPanel header = new RoundedPanel(new GridLayout(1, 4, 10, 0), 10, Color.BLACK, false);
         header.setPreferredSize(new Dimension(getWidth(), 40));
 
         UIManager.put("Label.foreground", Color.WHITE);

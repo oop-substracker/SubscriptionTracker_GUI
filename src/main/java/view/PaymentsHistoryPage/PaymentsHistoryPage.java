@@ -29,7 +29,7 @@ public class PaymentsHistoryPage extends JPanel {
             JPanel tabContent = new JPanel(new BorderLayout());
 
             // Header Panel
-            JPanel headerPanel = new RoundedPanel(new GridLayout(1, 4, 10, 0), 10, Color.BLACK);
+            JPanel headerPanel = new RoundedPanel(new GridLayout(1, 4, 10, 0), 10, Color.BLACK, false);
             headerPanel.setPreferredSize(new Dimension(getWidth(), 40));
 
             UIManager.put("Label.foreground", Color.WHITE);
@@ -59,7 +59,7 @@ public class PaymentsHistoryPage extends JPanel {
             contentPanel.add(Box.createVerticalStrut(10));
 
             for (int i = 1; i <= 5; i++) {
-                JPanel panel = new RoundedPanel(new GridLayout(1, 4, 10, 0), 10, Color.WHITE);
+                JPanel panel = new RoundedPanel(new GridLayout(1, 4, 10, 0), 10, Color.WHITE, false);
                 panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60)); // Set maximum height
 
                 UIManager.put("Label.foreground", Color.BLACK);

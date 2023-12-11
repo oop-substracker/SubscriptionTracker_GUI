@@ -31,7 +31,7 @@ public class VaultModal extends JDialog {
 
 
     private void initDetails() {
-        JPanel container = new RoundedPanel(new GridBagLayout(), 20, Color.WHITE);
+        JPanel container = new RoundedPanel(new GridBagLayout(), 20, Color.WHITE, false);
         container.setPreferredSize(new Dimension(355, 360));
 
         closeBtn = new JButton("Close");

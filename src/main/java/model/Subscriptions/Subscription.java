@@ -3,6 +3,8 @@ package model.Subscriptions;
 import model.Subscriptions.constants.BillingPeriod;
 
 public class Subscription {
+    private String id;
+    private String userId;
     private String email;
     private String platform;
     private String timeRemaining;
@@ -18,7 +20,32 @@ public class Subscription {
         this.dueDate = dueDate;
     }
 
+    public Subscription(String userId,String email,String platform, String timeRemaining, Billing billing, String dueDate) {
+        this.userId = userId;
+        this.email = email;
+        this.platform = platform;
+        this.timeRemaining = timeRemaining;
+        this.billing = billing;
+        this.dueDate = dueDate;
+    }
+
     public Subscription() { }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getPlatform() {
         return platform;

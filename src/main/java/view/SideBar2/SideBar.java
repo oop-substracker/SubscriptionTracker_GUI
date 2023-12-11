@@ -1,13 +1,12 @@
 package view.SideBar2;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import util.DropShadowCreator;
-import util.RoundedPanel;
-import util.UICreator;
-import util.RoundedButton;
+import util.*;
 
 public class SideBar extends JPanel {
 
@@ -18,15 +17,21 @@ public class SideBar extends JPanel {
     private JButton lightBtn;
     private JButton darkBtn;
 
+    private JButton foldBtn;
+
     private JPanel topPanel;
     private JPanel center;
     private JPanel bottomPanel;
 
 
+    boolean fold = false;
+
+    JPanel container;
+
     public SideBar() {
 //        UIManager.put("Panel.background", Color.decode("#FFFFFF"));
         this.setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension(230, 100));
+        this.setPreferredSize(new Dimension(230, 100)); // 230
 
         var container = new DropShadowCreator(0, 0, 0, 10);
         container.setLayout(new BorderLayout());
@@ -61,45 +66,153 @@ public class SideBar extends JPanel {
         billingBtn.addActionListener(listener);
     }
 
-    private JPanel wrapButtonWithPadding(JButton button) {
+    private JPanel wrapButtonWithPadding(Component button) {
         JPanel panel = new JPanel(new BorderLayout());
+        panel.setPreferredSize(new Dimension(getWidth(), 45));
         panel.add(button, BorderLayout.CENTER);
-        panel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode("#808080")));
+//        panel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode("#808080")));
+        button.setMaximumSize(new Dimension(10, getHeight()));
+
         return panel;
     }
 
-    private void initTop() {
-        topPanel = new JPanel(new GridLayout(4, 1));
-
-        UIManager.put("Button.background", Color.WHITE);
-
-        overviewBtn = UICreator.createButton(false,"Overview", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/homeblack.png", 28, 28), 0,0);
-        UICreator.configureTransparentButton(overviewBtn);
-        configureButton(overviewBtn);
-        accountsBtn = UICreator.createButton(false,"Accounts", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/accounts.png", 28, 28), 0, 0);
-        UICreator.configureTransparentButton(accountsBtn);
-        configureButton(accountsBtn);
-        paymentsBtn = UICreator.createButton(false,"Payments History", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/history.png", 28, 28), 0 ,0);
-        UICreator.configureTransparentButton(paymentsBtn);
-        configureButton(paymentsBtn);
-        billingBtn = UICreator.createButton(false, "Billing Tracker", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/bill_track.png", 28, 28),0, 0);
-        UICreator.configureTransparentButton(billingBtn);
-        configureButton(billingBtn);
-
-        topPanel.add(wrapButtonWithPadding(overviewBtn));
-        topPanel.add(wrapButtonWithPadding(accountsBtn));
-        topPanel.add(wrapButtonWithPadding(paymentsBtn));
-        topPanel.add(wrapButtonWithPadding(billingBtn));
-
-        UIManager.put("Button.background", null);
+    private void adjustPadding() {
+        overviewBtn.setBorder(BorderFactory.createEmptyBorder(0,30, 0,0));
+        accountsBtn.setBorder(BorderFactory.createEmptyBorder(0,30, 0,0));
+        paymentsBtn.setBorder(BorderFactory.createEmptyBorder(0,30, 0,0));
+        billingBtn.setBorder(BorderFactory.createEmptyBorder(0,30, 0,0));
     }
+
+    private void initTop() {
+            topPanel = new JPanel();
+            topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.PAGE_AXIS));
+            topPanel.setBackground(Color.WHITE);
+
+            UIManager.put("Button.background", Color.WHITE);
+
+
+            /* ================================== */
+
+            JPanel logoPanel = new JPanel(new BorderLayout());
+            logoPanel.setBackground(Color.WHITE);
+            logoPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 5));
+            JLabel label = UICreator.createLabelWithImage("ST", 20, Font.BOLD, "/icons/assets/logo.png", 60, 60);
+            foldBtn = UICreator.createButton(false,"", 0, 0, UICreator.createImage("/icons/assets/left-arrow.png", 30,30), 0, 0);
+            foldBtn.setMargin(new Insets(0, 0 , 0,0));
+            foldBtn.setBorderPainted(false);
+            foldBtn.setFocusable(false);
+
+            logoPanel.add(label, BorderLayout.WEST);
+            logoPanel.add(foldBtn, BorderLayout.EAST);
+
+            //
+
+            JPanel profilePanel = new RoundedPanel(15, true);
+            profilePanel.setBackground(Color.WHITE);
+            profilePanel.setBorder(null);
+            profilePanel.setLayout(new BorderLayout());
+            profilePanel.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 5));
+            profilePanel.setMaximumSize(new Dimension(185, 70));
+
+
+            String text = "<html><div style='text-align:center;'><span style='color:#969eab; font-size:9px;'>Manage</span><br>" + "Harvie" +"</div></html>";
+            JLabel profLabel = UICreator.createLabelWithImage(text, 14, Font.BOLD, "/icons/assets/background-check.png", 47,47);
+            JButton drop = new JButton(UICreator.createImage("/icons/assets/caret-down.png", 8, 8));
+            drop.setMargin(new Insets(0, 0 , 0,0));
+            drop.setBorderPainted(false);
+
+            profilePanel.add(profLabel,  BorderLayout.WEST);
+            profilePanel.add(drop, BorderLayout.EAST);
+
+            /* ================================= */
+
+            overviewBtn = UICreator.createButton(false,"Overview", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/homeblack.png", 28, 28), 0,0);
+            UICreator.configureTransparentButton(overviewBtn);
+            configureButton(overviewBtn);
+            accountsBtn = UICreator.createButton(false,"Accounts", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/accounts.png", 28, 28), 0, 0);
+            UICreator.configureTransparentButton(accountsBtn);
+            configureButton(accountsBtn);
+            paymentsBtn = UICreator.createButton(false,"Payments History", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/history.png", 28, 28), 0 ,0);
+            UICreator.configureTransparentButton(paymentsBtn);
+            configureButton(paymentsBtn);
+            billingBtn = UICreator.createButton(false, "Billing Tracker", 14, Font.BOLD, UICreator.createImage("/icons/sidebar/bill_track.png", 28, 28),0, 0);
+            UICreator.configureTransparentButton(billingBtn);
+            configureButton(billingBtn);
+
+
+            topPanel.add(logoPanel);
+            topPanel.add(Box.createVerticalStrut(20));
+            topPanel.add(profilePanel);
+            topPanel.add(Box.createVerticalStrut(10));
+            topPanel.add(wrapButtonWithPadding(overviewBtn));
+            topPanel.add(wrapButtonWithPadding(accountsBtn));
+            topPanel.add(wrapButtonWithPadding(paymentsBtn));
+            topPanel.add(wrapButtonWithPadding(billingBtn));
+
+            UIManager.put("Button.background", null);
+
+
+
+            /* */
+            foldBtn.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    fold  =!fold;
+                    if (fold) {
+                        SideBar.this.setPreferredSize(new Dimension(100, 100)); // 230
+                        logoPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, -5));
+                        overviewBtn.setText("");
+                        accountsBtn.setText("");
+                        paymentsBtn.setText("");
+                        billingBtn.setText("");
+                        adjustPadding();
+                        UICreator.iconChanger(foldBtn, "/icons/assets/right-arrow.png",30, 30);
+                        label.setText("");
+                        profLabel.setText("");
+                        drop.setVisible(false);
+                        profilePanel.setMaximumSize(new Dimension(60, 70));
+
+                        darkBtn.setVisible(false);
+                        lightBtn.setPreferredSize(new Dimension(35, 35));
+                        lightBtn.setText("");
+                        container.setPreferredSize(new Dimension(35, 20));
+                        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 8));
+
+                    } else {
+                        SideBar.this.setPreferredSize(new Dimension(230, 100)); // 230
+                        logoPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 5));
+                        overviewBtn.setText("Overview");
+                        accountsBtn.setText("Accounts");
+                        paymentsBtn.setText("Payments History ");
+                        billingBtn.setText("Billing Tracker");
+                        UICreator.iconChanger(foldBtn, "/icons/assets/left-arrow.png",30, 30);
+                        label.setText("ST");
+                        profLabel.setText(text);
+                        drop.setVisible(true);
+                        profilePanel.setMaximumSize(new Dimension(185, 70));
+
+                        darkBtn.setVisible(true);
+                        lightBtn.setPreferredSize(new Dimension(83, 55));
+                        lightBtn.setText("Light");
+                        container.setPreferredSize(new Dimension(60, 20));
+                        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+                    }
+                }
+            });
+
+    }
+
+
 
     private void initBottom() {
         bottomPanel = new JPanel(new GridBagLayout());
         bottomPanel.setPreferredSize(new Dimension(getWidth(), 80));
         bottomPanel.setBackground(Color.WHITE);
 
-        var container = new RoundedPanel(new BorderLayout(), 40, Color.BLACK);
+        container = new RoundedPanel(new BorderLayout(), 40, Color.BLACK, false);
+        container.setBackground(Color.WHITE);
         container.setPreferredSize(new Dimension(60, 20));
         container.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 

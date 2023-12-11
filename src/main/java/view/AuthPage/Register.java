@@ -2,7 +2,6 @@ package view.AuthPage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import util.DropShadowCreatorForAllSides;
 import util.UICreator;
 import controller.Controller;

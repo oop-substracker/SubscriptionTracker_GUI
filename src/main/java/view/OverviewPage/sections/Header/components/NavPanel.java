@@ -28,7 +28,7 @@ public class NavPanel extends JPanel {
 
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 
-        notif = UICreator.createButton(false,"", 0, 0, UICreator.createImage("/icons/sidebar/notif_icon.png", 25,25), 0, 0);
+        notif = UICreator.createButton(false,"", 0, 0, UICreator.createImage("/icons/assets/bell-d.png", 22,22), 0, 0);
         notif.setBorder(null);
         notif.setBackground(new Color(0, 0, 0,0));
         notif.setBorderPainted(false);

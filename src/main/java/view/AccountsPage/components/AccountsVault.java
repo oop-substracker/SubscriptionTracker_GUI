@@ -26,7 +26,7 @@ public class AccountsVault extends JPanel {
             vault.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
             vault.setLayout(new BorderLayout());
             vault.setPreferredSize(new Dimension(250, 130));
-            JLabel image = new JLabel(UICreator.createImage("/icons/assets/sporitfypremium.png", 250, 150));
+            JLabel image = new JLabel(UICreator.createImage("/images/posters/spotify.png", 250, 150));
 
             JLabel email = UICreator.createLabel(account.getEmail(), 13, Font.BOLD);
             email.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.decode("#AAB9CF")));

@@ -7,13 +7,10 @@ public class Driver {
 
     public static void main(String[] args) {
 
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                MainFrame frame = new MainFrame();
-                frame.setVisible(true);
-                Controller controller = new Controller(frame);
-            }
+        SwingUtilities.invokeLater(() -> {
+            MainFrame frame = new MainFrame();
+            frame.setVisible(true);
+            Controller controller = new Controller(frame);
         });
     }
 

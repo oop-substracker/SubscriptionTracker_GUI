@@ -1,6 +1,8 @@
 package util;
 
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -48,6 +50,7 @@ public class UICreator {
         JTextField textField = new RoundedJTextField();
         textField.setText(placeholder);
         textField.setFont(new Font(regularFont.getFamily(), Font.PLAIN, 13));
+        textField.setFocusable(false);
 
         textField.addFocusListener(new FocusAdapter() {
             @Override
@@ -67,7 +70,6 @@ public class UICreator {
             }
         });
 
-        // Add mouse click listener to clear the placeholder when clicked
         textField.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -75,6 +77,8 @@ public class UICreator {
                     textField.setText("");
                     textField.setForeground(Color.BLACK);
                 }
+                textField.setFocusable(true);
+                textField.requestFocusInWindow();
             }
         });
 
@@ -108,6 +112,12 @@ public class UICreator {
 
         return button;
     }
+
+    public static void iconChanger(JButton button, String path, int w, int h)  {
+        ImageIcon image = createImage(path, w, h);
+        button.setIcon(image);
+    }
+
 
     public static void configureTransparentButton(AbstractButton button) {
         button.setMargin(new Insets(0, -1, 0, 0));
