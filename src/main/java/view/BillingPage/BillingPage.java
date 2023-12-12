@@ -40,7 +40,7 @@ public class BillingPage extends JPanel {
             JLabel platform = UICreator.createLabel(subscription.getPlatform(), 14, Font.PLAIN);
             JLabel billing = UICreator.createLabel(subscription.getBilling().getBillingPeriod().toString(), 14, Font.PLAIN);
             JLabel amount = UICreator.createLabel("$" + subscription.getBilling().getCost(), 14, Font.PLAIN);
-            JLabel timeRemaining = UICreator.createLabel(subscription.getTimeRemaining(), 14, Font.PLAIN);
+            JLabel timeRemaining = UICreator.createLabel(Long.toString(subscription.getTimeRemaining()), 14, Font.PLAIN);
             JLabel nextPayment = UICreator.createLabel("December 12, 3032", 14, Font.PLAIN);
             JLabel monthlyCost = UICreator.createLabel("$" + Double.toString(subscription.getBilling().getMonthlyCost()), 14, Font.PLAIN);
             JLabel yearlyCost = UICreator.createLabel("$" + Double.toString(subscription.getBilling().getYearlyCost()), 14, Font.PLAIN);

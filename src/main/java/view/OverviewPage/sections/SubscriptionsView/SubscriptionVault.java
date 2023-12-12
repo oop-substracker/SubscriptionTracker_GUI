@@ -9,6 +9,9 @@ import util.UICreator;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class SubscriptionVault extends JPanel {
 
@@ -35,8 +38,19 @@ public class SubscriptionVault extends JPanel {
 
             var leftTop = new JPanel(new BorderLayout());
             leftTop.setBackground(Color.decode("#FFFFFF"));
+
+            /* ======== UPDATING REALTIME COUNTSHIT ========== */
+
             var remainingTimeLabel = UICreator.createLabel("Time Remaining", 13, Font.PLAIN);
-            var remainingTime = UICreator.createLabel(vault.getTimeRemaining(), 13, Font.BOLD);
+            var remainingTime = UICreator.createLabel("", 13, Font.BOLD);
+
+            // Start background timer
+            vault.updateRemainingTime();
+            ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+            executorService.scheduleAtFixedRate(() -> vault.updateElapsedTime(remainingTime), 0, 1000, TimeUnit.MILLISECONDS);
+
+            /* =============================================== */
+
             Box boxLayout = Box.createVerticalBox();
             boxLayout.add(remainingTimeLabel);
             boxLayout.add(remainingTime);

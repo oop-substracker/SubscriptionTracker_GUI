@@ -13,6 +13,4 @@ public class Driver {
             Controller controller = new Controller(frame);
         });
     }
-
-
 }

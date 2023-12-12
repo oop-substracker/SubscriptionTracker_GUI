@@ -20,4 +20,8 @@ public class SubscriptionHandler {
     public Subscription createSubscription(Subscription subscription) {
         return subscriptionsRepository.createMySubscription(subscription);
     }
+
+    public void updateSubTimeStamps(String id, Subscription subscription) {
+        subscriptionsRepository.updateSubTimeStamps(id, subscription);
+    }
 }

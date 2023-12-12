@@ -3,6 +3,7 @@ package controller;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.Instant;
 import java.util.List;
 
 import model.DefaultEntries.Entry;
@@ -94,7 +95,7 @@ public class Controller  {
         //
         subscriptionList = new SubscriptionList();
 
-//        onLoad();
+        onLoad();
 
         attachListeners();
 
@@ -132,6 +133,7 @@ public class Controller  {
         sideBar.paymentsBtnNavigateListener(new NavigateListener("paymentsPage"));
         sideBar.billingBtnNavigateListener(new NavigateListener("billingPage"));
         frame.setWindowsListener(new MyWindowStateListener());
+        frame.setWindowsListener(new SaveTimeStampsOnExit());
     }
 
     /* ================================================================== */
@@ -159,6 +161,12 @@ public class Controller  {
                     case "Create Account":
                         register.setUser(Controller.user);
                         authentication.registerUser(user);
+
+                        if (authentication.getResponseCode() == 200) {
+                            register.setVisible(false);
+                            login.setVisible(true);
+                            frame.add(login, BorderLayout.CENTER);
+                        }
                         break;
                     case "Sign In":
                         login.setUser(Controller.user);
@@ -181,6 +189,8 @@ public class Controller  {
                             login.getErrorLabel().setText(authentication.getError());
                             System.out.println("Error mate");
                         }
+
+//                        user.setId("xxXXxx");
 //                        showUIOnLogin();
                         break;
                 }
@@ -301,11 +311,12 @@ public class Controller  {
                         /* Add the entry in subscription list */
                         entryCreationPage.setVisible(false);
                         overview.setVisible(true);
-                        subscriptionList.addSubscription(subscription);
+//                        subscriptionList.addSubscription(subscription);
 
                         entryCreationPage.setSubcription(Controller.subscription);
                         /* == POST REQUEST == */
                         System.out.println(subscriptionHandler.createSubscription(subscription));
+                        SubscriptionList.setSubscriptionList(subscriptionHandler.getSubscriptions(user.getId()));
 
                         SwingUtilities.invokeLater(Controller::onLoad);
                         break;
@@ -345,4 +356,17 @@ public class Controller  {
         }
     }
 
+
+    /* ========================= CONTROLLER FOR SAVING THE SUBSCRIPTION remainingTimeInMills ================= */
+
+    public static class SaveTimeStampsOnExit extends WindowAdapter {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            for (Subscription sub: SubscriptionList.getSubscriptionList()) {
+                subscriptionHandler.updateSubTimeStamps(sub.getId(), sub);
+            }
+        }
+    }
+
+    /* ========================================================================================================== */
 }
