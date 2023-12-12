@@ -18,6 +18,7 @@ public class AnalyticPanel extends JPanel {
         setLayout(new GridLayout(1, 4, 10, 5));
         this.setPreferredSize(new Dimension(getWidth(), 100));
 
+
         init();
     }
 

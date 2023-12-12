@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.DefaultEntries.Entry;
@@ -16,6 +17,8 @@ import view.AccountsPage.components.VaultModal;
 import view.AuthPage.Login;
 import view.AuthPage.Register;
 import view.MainFrame;
+import view.OverviewPage.sections.Header.Header;
+import view.OverviewPage.sections.Header.components.NavPanel;
 import view.SideBar2.SideBar;
 import view.OverviewPage.Overview;
 import view.OverviewPage.sections.SubscriptionsView.SubsView;
@@ -61,6 +64,8 @@ public class Controller  {
     private static PaymentsHistoryPage paymentsHistoryPage;
     private static BillingPage billingPage;
     private static VaultModal vaultModal;
+    private static Header header;
+    private static NavPanel navPanel;
 
     private static EntryList entryList;
     private static EntryItemView entryItemView;
@@ -85,6 +90,8 @@ public class Controller  {
         paymentsHistoryPage = frame.getPaymentsHistoryPage();
         billingPage = frame.getBillingPage();
         vaultModal = accountsPage.getVaultModal();
+        header = overview.getHeader();
+        navPanel = header.getNavPanel();
 
         subscriptionVault = subsView.getSubscriptionVault();
 
@@ -122,7 +129,7 @@ public class Controller  {
         createEntryView.getEntryItemView().updateEntriesView(entryList.getEntryList());
         subsView.getSubscriptionVault().updateSubscriptionVaults(SubscriptionList.getSubscriptionList());
         accountsPage.getAccountsVault().updateAccountsView(SubscriptionList.getSubscriptionList());
-        billingPage.updateTabbedPaneData(SubscriptionList.getSubscriptionList());
+        billingPage.getTabbedPane().updateTabbedPaneData(SubscriptionList.getSubscriptionList());
     }
 
     /* ================================================================== */
@@ -337,6 +344,7 @@ public class Controller  {
         Component comp;
         Subscription subs;
 
+
         public CustomMouseListener(Component comp, Subscription subs) {
             this.subs = subs;
             this.comp = comp;
@@ -348,11 +356,32 @@ public class Controller  {
                 register.setVisible(false);
                 login.setVisible(true);
                 frame.add(login, BorderLayout.CENTER);
+            } else if (comp instanceof JPanel && comp == navPanel.getProfileDrop())  {
+                onLogOut();
             } else {
                 vaultModal = new VaultModal(SwingUtilities.getWindowAncestor(accountsPage), subs);
                 vaultModal.setVisible(true);
             }
 
+        }
+
+        private static void onLogOut() {
+            setSubscriptionList(null);
+            subsView.getSubscriptionVault().removeAll();
+            subsView.revalidate();
+            accountsPage.getAccountsVault().removeAll();
+            accountsPage.revalidate();
+            List<Subscription> emptyList = new ArrayList<>();
+            billingPage.getTabbedPane().updateTabbedPaneData(emptyList);
+
+            frame.getContentPane().removeAll();
+            frame.setSize(new Dimension(1024, 700));
+            frame.getContentPane().add(login, BorderLayout.CENTER);
+            login.setVisible(true);
+            frame.getContentPane().revalidate();
+            frame.getContentPane().repaint();
+            frame.setLocationRelativeTo(null);
+            navPanel.getProfileDrop().setVisible(false);
         }
     }
 

@@ -31,6 +31,10 @@ public class Overview extends JPanel {
 
     }
 
+    public Header getHeader() {
+        return header;
+    }
+
     public SubsView getSubsView() {
         return subsView;
     }

@@ -12,6 +12,7 @@ public class Register extends JPanel {
 
     private JPanel leftSec;
     private JPanel rightSec;
+    private JLabel privacy;
 
     // input fields
     private JTextField fName;
@@ -123,7 +124,7 @@ public class Register extends JPanel {
         registerBtn.setBorderPainted(false);
 
         String text = "<html><div style='text-align:center; '>Already have an account?<br><span style='text-decoration:underline; color:#000000; '>Sign In</span></div></html>";
-        JLabel privacy = UICreator.createLabel(text, 13, Font.BOLD);
+        privacy = UICreator.createLabel(text, 13, Font.BOLD);
         privacy.addMouseListener(new Controller.CustomMouseListener(privacy, null));
 
         UICreator.createComp(container, signLabel, 1, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, 0,0 , 0, 0, 120);
@@ -149,4 +150,7 @@ public class Register extends JPanel {
         user.setPassword(password.getText());
     }
 
+    public JLabel getPrivacy() {
+        return privacy;
+    }
 }

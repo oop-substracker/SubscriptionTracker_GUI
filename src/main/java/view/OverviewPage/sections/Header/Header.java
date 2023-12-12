@@ -22,6 +22,10 @@ public class Header extends JPanel {
         this.setLayout(new GridBagLayout());
 
         UICreator.createComp(this, navPanel, 0, 0, 4, 1, 1, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 0, 0, 0, 0, 0 );
-        UICreator.createComp(this, analyticPanel, 0, 1, 4, 2, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 20, 0, 0, 0, 0 );
+        UICreator.createComp(this, analyticPanel, 0, 1, 4, 2, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 3, 0, 0, 0, 0 );
+    }
+
+    public NavPanel getNavPanel() {
+        return navPanel;
     }
 }

@@ -1,0 +1,121 @@
+package view.BillingPage.sections;
+
+import model.Subscriptions.Subscription;
+import util.MaterialTabbedPane;
+import util.RoundedPanel;
+import util.UICreator;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+
+public class TabbedList extends MaterialTabbedPane {
+
+    private JPanel container;
+
+    public TabbedList() {
+        this.setFont(UICreator.getRegularFont().deriveFont(Font.PLAIN, 16));
+        this.setBackground(Color.RED);
+
+        initTabHeader();
+    }
+
+    private void initTabHeader() {
+        container = new JPanel(new BorderLayout());
+
+        JPanel header = new RoundedPanel(new GridLayout(1, 4, 10, 0), 10, Color.BLACK, false);
+        header.setPreferredSize(new Dimension(getWidth(), 40));
+
+        UIManager.put("Label.foreground", Color.WHITE);
+
+        JLabel platform = UICreator.createLabel("Name", 14, Font.PLAIN);
+        JLabel billing = UICreator.createLabel("Billing", 14, Font.PLAIN);
+        JLabel amount = UICreator.createLabel("Amount", 14, Font.PLAIN);
+        JLabel timeRemaining = UICreator.createLabel("Time Remaining", 14, Font.PLAIN);
+        JLabel nextPayment = UICreator.createLabel("Next Payment", 14, Font.PLAIN);
+        JLabel monthlyCost = UICreator.createLabel("Monthly Cost", 14, Font.PLAIN);
+        JLabel yearlyCost = UICreator.createLabel("Yearly Cost", 14, Font.PLAIN);
+        JLabel status = UICreator.createLabel("Status", 14, Font.PLAIN);
+
+        platform.setHorizontalAlignment(SwingConstants.CENTER);
+        billing.setHorizontalAlignment(SwingConstants.CENTER);
+        amount.setHorizontalAlignment(SwingConstants.CENTER);
+        timeRemaining.setHorizontalAlignment(SwingConstants.CENTER);
+        nextPayment.setHorizontalAlignment(SwingConstants.CENTER);
+        monthlyCost.setHorizontalAlignment(SwingConstants.CENTER);
+        yearlyCost.setHorizontalAlignment(SwingConstants.CENTER);
+        status.setHorizontalAlignment(SwingConstants.CENTER);
+
+        header.add(platform);
+        header.add(billing);
+        header.add(amount);
+        header.add(timeRemaining);
+        header.add(nextPayment);
+        header.add(monthlyCost);
+        header.add(yearlyCost);
+        header.add(status);
+
+        container.add(header, BorderLayout.NORTH);
+
+        UIManager.put("Label.foreground", null);
+    }
+
+    public void updateTabbedPaneData(List<Subscription> subscriptionList) {
+        JPanel infoContainer = new JPanel();
+        this.removeAll();
+        container.removeAll();
+        initTabHeader();
+        infoContainer.setLayout(new BoxLayout(infoContainer, BoxLayout.Y_AXIS));
+        infoContainer.add(Box.createVerticalStrut(10));
+
+        for (Subscription subscription : subscriptionList) {
+            /* platform shits */
+            JPanel panel = new RoundedPanel(new GridLayout(1, 4, 10, 0), 10,Color.WHITE, false);
+            panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
+
+            UIManager.put("Label.foreground", Color.BLACK);
+
+            JLabel platform = UICreator.createLabel(subscription.getPlatform(), 14, Font.PLAIN);
+            JLabel billing = UICreator.createLabel(subscription.getBilling().getBillingPeriod().toString(), 14, Font.PLAIN);
+            JLabel amount = UICreator.createLabel("$" + subscription.getBilling().getCost(), 14, Font.PLAIN);
+            JLabel timeRemaining = UICreator.createLabel(Long.toString(subscription.getTimeRemaining()), 14, Font.PLAIN);
+            JLabel nextPayment = UICreator.createLabel("December 12, 3032", 14, Font.PLAIN);
+            JLabel monthlyCost = UICreator.createLabel("$" + Double.toString(subscription.getBilling().getMonthlyCost()), 14, Font.PLAIN);
+            JLabel yearlyCost = UICreator.createLabel("$" + Double.toString(subscription.getBilling().getYearlyCost()), 14, Font.PLAIN);
+            JLabel status = UICreator.createLabel("Active", 14, Font.PLAIN);
+
+            platform.setHorizontalAlignment(SwingConstants.CENTER);
+            billing.setHorizontalAlignment(SwingConstants.CENTER);
+            amount.setHorizontalAlignment(SwingConstants.CENTER);
+            timeRemaining.setHorizontalAlignment(SwingConstants.CENTER);
+            nextPayment.setHorizontalAlignment(SwingConstants.CENTER);
+            monthlyCost.setHorizontalAlignment(SwingConstants.CENTER);
+            yearlyCost.setHorizontalAlignment(SwingConstants.CENTER);
+            status.setHorizontalAlignment(SwingConstants.CENTER);
+
+            panel.add(platform);
+            panel.add(billing);
+            panel.add(amount);
+            panel.add(timeRemaining);
+            panel.add(nextPayment);
+            panel.add(monthlyCost);
+            panel.add(yearlyCost);
+            panel.add(status);
+
+            infoContainer.add(panel);
+            infoContainer.add(Box.createVerticalStrut(10));
+
+            container.add(infoContainer, BorderLayout.CENTER);
+
+            UIManager.put("Label.foreground", null);
+
+        }
+
+        this.add("Overall", container);
+
+        this.revalidate();
+        this.repaint();
+        container.revalidate();
+        container.repaint();
+    }
+}
