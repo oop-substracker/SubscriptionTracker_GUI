@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -75,16 +77,33 @@ public class VaultModal extends JDialog {
         email.setHorizontalAlignment(JLabel.CENTER);
         email.setSize(new Dimension(350, getHeight()));
 
-        password = UICreator.createLabel("*********", 16, Font.PLAIN);
-        password.setHorizontalAlignment(JLabel.CENTER);
+//        password = UICreator.createLabel("*********", 16, Font.PLAIN);
+//        password.setHorizontalAlignment(JLabel.CENTER);
 
         String time = "";
         if (subscription.getTimeRemaining() <= 0) {
             time = "00:00:00";
         } else {
-            time = String.valueOf(subscription.getTimeRemaining());
+            long days = TimeUnit.MILLISECONDS.toDays(subscription.getTimeRemaining());
+            long hours = TimeUnit.MILLISECONDS.toHours(subscription.getTimeRemaining()) - TimeUnit.DAYS.toHours(days);
+
+            time = String.format("%02d:%02d:00", days, hours);
         }
-        String text = "<html><div style='text-align:center; font-size:11px;' >Time remaining: " + time + "<br style='font-weight:bold;  '><span style='font-size:13px;' >" + subscription.getDueDate() + "</span></div></html>";
+
+        /* */
+        Instant dueDateInstant = UICreator.parseStringToInstant(subscription.getDueDate());
+        long timeRemainingInMillis = subscription.getTimeRemaining();
+        Instant paymentDateInstant = dueDateInstant.minusMillis(timeRemainingInMillis);
+        String formattedPaymentDate = UICreator.formatInstantToString(paymentDateInstant);
+
+
+        String dP = "<html><div style='text-align:center'>Date purchase: <br>" + formattedPaymentDate + "</div></html>";
+        JLabel datePurchase = UICreator.createLabel(dP, 13, Font.PLAIN);
+        datePurchase.setHorizontalAlignment(JLabel.CENTER);
+        /* */
+
+
+        String text = "<html><div style='text-align:center; font-size:11px;' >Time remaining: " + time + "<br style='font-weight:bold;  '><span style='font-size:11px;' >" + subscription.getDueDate() + "</span></div></html>";
         remainingTime = UICreator.createLabel(text, 13, Font.PLAIN);
         remainingTime.setHorizontalAlignment(JLabel.CENTER);
 
@@ -94,9 +113,10 @@ public class VaultModal extends JDialog {
 
         UICreator.createComp(container, closeBtn, 0, 0, 1, 1, 1, 0.1, GridBagConstraints.EAST, GridBagConstraints.NONE, -70, 0, 0, 10, 0);
         UICreator.createComp(container, image, 0, 0, 1, 1, 1, 0.1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 20, 0, -40, 0, 0);
-        UICreator.createComp(container, status, 0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 5, 0, -30, 0, 0);
+        UICreator.createComp(container, status, 0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0, 0, -30, 0, 0);
         UICreator.createComp(container, email, 0, 2, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 0, 0, 0, 0);
-        UICreator.createComp(container, password, 0, 3, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, -20, 0, 0, 0, 0);
+//        UICreator.createComp(container, password, 0, 3, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, -20, 0, 0, 0, 0);
+        UICreator.createComp(container, datePurchase, 0, 3, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0, 0, 0, 0, 0);
         UICreator.createComp(container, remainingTime, 0, 4, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0, 0, 0, 0, 0);
         UICreator.createComp(container, cost, 0, 5, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0, 0, 0, 0, 0);
 

@@ -105,11 +105,11 @@ public class Login extends JPanel {
         signLabel.setForeground(Color.BLACK);
 
         email = UICreator.createTxtField("Username");
-        email.setBackground(Color.decode("#C5F2BD"));
+        email.setBackground(Color.decode("#FFFFFF"));
         email.setMargin(new Insets(5, 20, 5, 5));
 
         password = UICreator.createJPassword();
-        password.setBackground(Color.decode("#C5F2BD"));
+        password.setBackground(Color.decode("#FFFFFF"));
         password.setMargin(new Insets(5, 20, 5, 5));
 
         signBtn = UICreator.createButton(true, "Sign In", 13, Font.PLAIN, null, 50, 50);

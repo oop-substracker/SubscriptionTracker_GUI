@@ -112,6 +112,9 @@ public class TabbedList extends MaterialTabbedPane {
             JLabel yearlyCost = UICreator.createLabel(yearlyCostText, 14, Font.PLAIN);
             JLabel status = UICreator.createLabel("Active", 14, Font.PLAIN);
 
+            if (subscription.getTimeRemaining() <= 0)
+                status.setText("Expired");
+
             weeklyCost.setFont(new Font("Arial", Font.PLAIN, 14));
             monthlyCost.setFont(new Font("Arial", Font.PLAIN, 14));
             yearlyCost.setFont(new Font("Arial", Font.PLAIN, 14));

@@ -60,7 +60,7 @@ public class UICreator {
         textField.setFont(new Font(regularFont.getFamily(), Font.PLAIN, 13));
 //        textField.setFocusable(false);
 
-
+        textField.setBorder(new com.formdev.flatlaf.ui.FlatTextBorder());
         return textField;
     }
 

@@ -1,12 +1,7 @@
 package view.AuthPage;
 
-import javax.swing.UIManager;
+import javax.swing.*;
 import java.awt.BorderLayout;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -111,19 +106,19 @@ public class Register extends JPanel {
         JLabel signLabel = UICreator.createLabel("Create Account", 30, Font.BOLD);
 
         fName = UICreator.createTxtField("First Name");
-        fName.setBackground(Color.decode("#C5F2BD"));
+        fName.setBackground(Color.decode("#FFFFFF"));
         fName.setMargin(new Insets(5, 20, 5, 5));
 
         lName = UICreator.createTxtField("Last Name");
-        lName.setBackground(Color.decode("#C5F2BD"));
+        lName.setBackground(Color.decode("#FFFFFF"));
         lName.setMargin(new Insets(5, 20, 5, 5));
 
         email = UICreator.createTxtField("Email");
-        email.setBackground(Color.decode("#C5F2BD"));
+        email.setBackground(Color.decode("#FFFFFF"));
         email.setMargin(new Insets(5, 20, 5, 5));
 
         password = UICreator.createJPassword();
-        password.setBackground(Color.decode("#C5F2BD"));
+        password.setBackground(Color.decode("#FFFFFF"));
 
         password.setMargin(new Insets(5, 20, 5, 5));
 
