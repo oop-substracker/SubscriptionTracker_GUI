@@ -19,7 +19,7 @@ import javax.swing.SwingUtilities;
  * - Niño Jay Dicdiquin
  * - Ethan Patrick Bandebas
  * - Clyde Puntanar
- * - Clint Joseph Ubanan
+ * - Clint Joseph Ubanana
  * - John Earl Balabat
  * - Rowela Katelhyne Barredo
  * - Gabryle Antonie Pitogo

@@ -58,7 +58,6 @@ public class Login extends JPanel {
         leftSec.setLayout(null);
         leftSec.setPreferredSize(new Dimension(400, 100));
 
-
         container = new DropShadowCreatorForAllSides(5, 5, 5, 5);
         container.setLayout(new GridBagLayout());
         container.setBounds(85, 60, 320, 540);
@@ -71,6 +70,11 @@ public class Login extends JPanel {
         JLabel label = UICreator.createLabel(text, 23, Font.BOLD);
         label.setForeground(Color.decode("#b0bec3"));
         UICreator.createComp(container, label, 0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, 10, 0, 0, 0, 0);
+
+        String text1 = "<html><div style='text-align:center; '>&ldquo;Monitor subscriptions at a glance&rdquo;</div></html>";
+        var leftDownLabel = UICreator.createLabel(text1, 13, Font.BOLD);
+        leftDownLabel.setForeground(Color.decode("#b0bec3"));
+        UICreator.createComp(container, leftDownLabel, 0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, 10, 0, 0, 0, 0);
 
         leftSec.setBackground(Color.decode("#212121"));
         container.setBackground(Color.decode("#212121"));

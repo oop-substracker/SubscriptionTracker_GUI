@@ -71,7 +71,6 @@ public class MainFrame extends JFrame  {
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
 
-        System.out.println("Mainframe: " + UIManager.getColor("Panel.background"));
     }
 
     public void setWindowsListener(WindowStateListener listener) { this.addWindowStateListener((WindowStateListener) listener);}
