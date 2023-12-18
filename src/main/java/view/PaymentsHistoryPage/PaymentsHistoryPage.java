@@ -101,7 +101,7 @@ public class PaymentsHistoryPage extends JPanel {
             JLabel paymentDateValue = UICreator.createLabel(formattedPaymentDate, 14, Font.PLAIN);
             JLabel paymentCostValue = UICreator.createLabel(Double.toString(sub.getBilling().getCost()), 14, Font.PLAIN);
             JLabel subsDueValue = UICreator.createLabel(sub.getDueDate(), 14, Font.PLAIN);
-            JLabel paymentStatusValue = UICreator.createLabel("Pending...", 14, Font.PLAIN);
+            JLabel paymentStatusValue = UICreator.createLabel("Paid", 14, Font.PLAIN);
 
             paymentDateValue.setHorizontalAlignment(SwingConstants.CENTER);
             paymentCostValue.setHorizontalAlignment(SwingConstants.CENTER);
