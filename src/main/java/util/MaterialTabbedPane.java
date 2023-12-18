@@ -1,0 +1,103 @@
+package util;
+
+import java.awt.*;
+import javax.swing.JComponent;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.plaf.metal.MetalTabbedPaneUI;
+
+public class MaterialTabbedPane extends JTabbedPane {
+
+    public MaterialTabbedPane() {
+        setUI(new MaterialTabbedUI());
+    }
+
+    public class MaterialTabbedUI extends MetalTabbedPaneUI {
+
+        private Rectangle currentRectangle;
+
+        public MaterialTabbedUI() {
+        }
+
+        @Override
+        public void installUI(JComponent jc) {
+            super.installUI(jc);
+
+        }
+
+        @Override
+        protected Insets getTabInsets(int i, int i1) {
+            return new Insets(10, 10, 10, 10);
+        }
+
+        @Override
+        protected void paintTabBorder(Graphics grphcs, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
+            Graphics2D g2 = (Graphics2D) grphcs.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            if (isSelected) {
+                // Draw a horizontal bar at the bottom of the text for the selected tab
+                g2.setColor(new Color(255, 0, 0)); // You can set the color you prefer
+                g2.fillRect(x, y + h - 3, w, 3); // Adjust the height and position as needed
+            } else {
+                g2.setColor(new Color(3, 155, 216));
+
+                if (currentRectangle != null) {
+                    if (tabPlacement == TOP) {
+                        g2.fillRect(currentRectangle.x, currentRectangle.y + currentRectangle.height - 3, currentRectangle.width, 3);
+                    } else if (tabPlacement == BOTTOM) {
+                        g2.fillRect(currentRectangle.x, currentRectangle.y, currentRectangle.width, 3);
+                    } else if (tabPlacement == LEFT) {
+                        g2.fillRect(currentRectangle.x + currentRectangle.width - 3, currentRectangle.y, 3, currentRectangle.height);
+                    } else if (tabPlacement == RIGHT) {
+                        g2.fillRect(currentRectangle.x, currentRectangle.y, 3, currentRectangle.height);
+                    }
+                }
+            }
+
+            g2.dispose();
+        }
+
+
+
+        @Override
+        protected void paintContentBorder(Graphics grphcs, int tabPlacement, int selectedIndex) {
+            Graphics2D g2 = (Graphics2D) grphcs.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(new Color(200, 200, 200));
+            Insets insets = getTabAreaInsets(tabPlacement);
+            int width = tabPane.getWidth();
+            int height = tabPane.getHeight();
+
+            if (tabPlacement == TOP) {
+                int tabHeight = calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
+                g2.drawLine(insets.left, tabHeight, width - insets.right - 1, tabHeight);
+            } else if (tabPlacement == BOTTOM) {
+                int tabHeight = height - calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
+                g2.drawLine(insets.left, tabHeight, width - insets.right - 1, tabHeight);
+            } else if (tabPlacement == LEFT) {
+                int tabWidth = calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
+                g2.drawLine(tabWidth, insets.top, tabWidth, height - insets.bottom - 1);
+            } else if (tabPlacement == RIGHT) {
+                int tabWidth = width - calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth) - 1;
+                g2.drawLine(tabWidth, insets.top, tabWidth, height - insets.bottom - 1);
+            }
+
+            g2.dispose();
+        }
+
+        @Override
+        protected void paintFocusIndicator(Graphics grphcs, int i, Rectangle[] rctngls, int i1, Rectangle rctngl, Rectangle rctngl1, boolean bln) {
+            // Empty implementation, no focus indicator
+        }
+
+        @Override
+        protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
+            if (tabPane.isOpaque()) {
+                super.paintTabBackground(g, tabPlacement, tabIndex, x, y, w, h, isSelected);
+            }
+        }
+    }
+}
+

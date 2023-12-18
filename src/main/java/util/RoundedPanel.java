@@ -6,26 +6,46 @@ import java.awt.*;
 public class RoundedPanel extends JPanel {
 
     private Color backgroundColor;
-    private int cornerRadius = 15;
+    private int cornerRadius = 20;
+    private float borderWidth = 2.0f; // Set the desired border width
+    private boolean  setStroke;
+
     public RoundedPanel(LayoutManager layout, int radius) {
         super(layout);
         cornerRadius = radius;
+        setBorder(null); // Set the border to be empty
     }
-    public RoundedPanel(LayoutManager layout, int radius, Color bgColor) {
+
+    public RoundedPanel(LayoutManager layout, int radius, Color bgColor, boolean setStroke) {
         super(layout);
         cornerRadius = radius;
         backgroundColor = bgColor;
+        this.setStroke =setStroke;
+        setBorder(null); // Set the border to be empty
     }
-    public RoundedPanel(int radius) {
+
+    public RoundedPanel(int radius, boolean setStroke) {
         super();
         cornerRadius = radius;
-
+        this.setStroke = setStroke;
+        setBorder(null); // Set the border to be empty
     }
-    public RoundedPanel(int radius, Color bgColor) {
+
+    public RoundedPanel(int radius, Color bgColor, boolean setStroke) {
         super();
         cornerRadius = radius;
         backgroundColor = bgColor;
+        this.setStroke = setStroke;
+        setBorder(null); // Set the border to be empty
     }
+
+    public RoundedPanel(LayoutManager layout, int radius, boolean setStroke) {
+        super(layout);
+        cornerRadius = radius;
+        this.setStroke =setStroke;
+        setBorder(null); // Set the border to be empty
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -44,10 +64,18 @@ public class RoundedPanel extends JPanel {
         // Fill the rounded rectangle (including the border)
         graphics.fillRoundRect(0, 0, width, height, arcs.width, arcs.height);
 
-        // Set the color for the border
-        graphics.setColor(getForeground());
+        if (setStroke) {
+            // Set the color for the border to green
+            graphics.setColor(Color.BLACK);
+
+            // Set the stroke for the border (increase thickness)
+            graphics.setStroke(new BasicStroke(borderWidth));
+        } else {
+            graphics.setColor(getForeground());
+        }
+
 
         // Draw the rounded border
-        graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height);
+        graphics.drawRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);
     }
 }

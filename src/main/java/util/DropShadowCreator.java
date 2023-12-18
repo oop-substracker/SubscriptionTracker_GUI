@@ -22,11 +22,36 @@ public class DropShadowCreator extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        int shade = 0;
-        int topOpacity = 80;
-        for (int i = 0; i < right; i++) {
-            g.setColor(new Color(shade, shade, shade, ((topOpacity / right) * i)));
-            g.drawRect(i, i, this.getWidth() - ((i * 2) + 1), this.getHeight() - ((i * 2) + 1));
+        int shadowOpacity = 80;
+
+        Graphics2D g2d = (Graphics2D) g.create();
+
+        // Top shadow
+        for (int i = 0; i < top; i++) {
+            g2d.setColor(new Color(0, 0, 0, (shadowOpacity / top) * i));
+            g2d.drawLine(0, i, getWidth() - 1, i);
         }
+
+        // Left shadow
+        for (int i = 0; i < left; i++) {
+            g2d.setColor(new Color(0, 0, 0, (shadowOpacity / left) * i));
+            g2d.drawLine(i, 0, i, getHeight() - 1);
+        }
+
+        // Bottom shadow
+        for (int i = 0; i < bottom; i++) {
+            g2d.setColor(new Color(0, 0, 0, (shadowOpacity / bottom) * i));
+            g2d.drawLine(0, getHeight() - 1 - i, getWidth() - 1, getHeight() - 1 - i);
+        }
+
+        // Right shadow
+        for (int i = 0; i < right; i++) {
+            g2d.setColor(new Color(0, 0, 0, (shadowOpacity / right) * i));
+            g2d.drawLine(getWidth() - 1 - i, 0, getWidth() - 1 - i, getHeight() - 1);
+        }
+
+        g2d.dispose();
     }
+
+
 }

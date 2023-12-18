@@ -9,12 +9,12 @@ public class Billing {
     private double yearlyCost;
     private double weeklyCost;
 
-
     public Billing(BillingPeriod billingPeriod, double cost, double monthlyCost, double yearlyCost) {
         this.billingPeriod = billingPeriod;
         this.cost = cost;
         this.monthlyCost = monthlyCost;
         this.yearlyCost = yearlyCost;
+        this.weeklyCost = cost; // Set weekly cost as the default cost
     }
 
     public Billing(BillingPeriod billingPeriod, double cost, double weeklyCost, double monthlyCost, double yearlyCost) {
@@ -26,6 +26,24 @@ public class Billing {
     }
 
     public Billing() { }
+
+    public void calculateDerivedCosts() {
+        if (billingPeriod == BillingPeriod.WEEKLY) {
+            monthlyCost = cost * 4; // Assuming 4 weeks in a month
+            yearlyCost = cost * 52; // Assuming 52 weeks in a year
+            weeklyCost = cost;
+        } else if (billingPeriod == BillingPeriod.MONTHLY) {
+            weeklyCost = cost / 4; // Assuming 4 weeks in a month
+            yearlyCost = cost * 12; // Assuming 12 months in a year
+            monthlyCost = cost;
+        } else if (billingPeriod == BillingPeriod.YEARLY) {
+            weeklyCost = cost / 52; // Assuming 52 weeks in a year
+            monthlyCost = cost / 12; // Assuming 12 months in a year
+            yearlyCost = cost;
+        } else {
+            throw new IllegalArgumentException("Unsupported billing period: " + billingPeriod);
+        }
+    }
 
     public double getWeeklyCost() {
         return weeklyCost;
