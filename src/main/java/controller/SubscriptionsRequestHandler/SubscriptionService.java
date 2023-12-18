@@ -18,6 +18,8 @@ public class SubscriptionService implements SubscriptionsRepository {
     private static final String GET_REQUEST_URL = "http://localhost:8080/api/subscriptions/";
     private static final String POST_REQUEST_URL = "http://localhost:8080/api/subscriptions/create";
     private static final String UPDATE_REQUEST_URL = "http://localhost:8080/api/subscriptions/update";
+    private static final String UPDATE_TIME_URL = "http://localhost:8080/api/subscriptions/edit/";
+    private static final String DELETE_URL = "http://localhost:8080/api/subscriptions/delete/";
     private static final ObjectMapper objectMapper =  new ObjectMapper();
 
     static {
@@ -117,9 +119,73 @@ public class SubscriptionService implements SubscriptionsRepository {
 
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle parsing errors
         }
     }
+
+    @Override
+    public void updateSubRemainingTime(String id) {
+        try {
+            URL url = new URL(UPDATE_TIME_URL + id);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            // Use POST method
+            connection.setRequestMethod("POST");
+            // Set a custom header to indicate it's a PATCH request
+            connection.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true);
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                // reads the response connection input stream
+                String line;
+                StringBuilder response = new StringBuilder();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                System.out.println("Response update message: " + (response.toString()));
+            } else {
+                System.out.println("Failed to update. Response Code: " + responseCode);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void deleteSubscription(String id) {
+        try {
+            URL url = new URL(DELETE_URL + id);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            connection.setRequestMethod("DELETE");
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                // reads the response connection input stream
+                String line;
+                StringBuilder response = new StringBuilder();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                System.out.println("Response update message: " + parseJsonToSubscription(response.toString()));
+            } else {
+                System.out.println("Failed to delete. Response Code: " + responseCode);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public List<Subscription> parseJsonToSubscriptionList(String jsonData) {
         try {

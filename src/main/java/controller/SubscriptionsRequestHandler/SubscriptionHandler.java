@@ -24,4 +24,12 @@ public class SubscriptionHandler {
     public void updateSubTimeStamps(String id, Subscription subscription) {
         subscriptionsRepository.updateSubTimeStamps(id, subscription);
     }
+
+    public void updateSubRemainingTime(String id) {
+        subscriptionsRepository.updateSubRemainingTime(id);
+    }
+
+    public void deleteSubscription(String id) {
+        subscriptionsRepository.deleteSubscription(id);
+    }
 }

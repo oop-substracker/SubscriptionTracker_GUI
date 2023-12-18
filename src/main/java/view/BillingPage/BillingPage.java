@@ -1,11 +1,18 @@
 package view.BillingPage;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Font;
 import view.BillingPage.sections.TabbedList;
 import util.UICreator;
 
-
+/**
+ * The {@code BillingPage} class represents the main panel for the billing page in the application.
+ * It includes a title label and a {@link view.BillingPage.sections.TabbedList} for displaying subscription information.
+ * The class provides methods to initialize its components and retrieve the tabbed list.
+ */
 public class BillingPage extends JPanel {
 
     private JLabel title;

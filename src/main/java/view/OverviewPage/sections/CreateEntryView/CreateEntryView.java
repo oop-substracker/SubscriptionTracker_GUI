@@ -1,10 +1,19 @@
 package view.OverviewPage.sections.CreateEntryView;
 
-import javax.swing.*;
-import java.awt.*;
-
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import util.UICreator;
 
+/**
+ * The {@code CreateEntryView} class represents a panel for creating entries in the overview page.
+ * It includes a title panel and an {@link EntryItemView} for displaying and creating entry items.
+ * The class provides methods to initialize its components and retrieve the entry item view.
+ */
 public class CreateEntryView extends JPanel {
 
     private JPanel titlePanel;

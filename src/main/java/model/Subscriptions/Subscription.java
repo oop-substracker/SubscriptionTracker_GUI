@@ -1,10 +1,16 @@
 package model.Subscriptions;
 
-import model.Subscriptions.constants.BillingPeriod;
-
+import util.UICreator;
 import javax.swing.*;
 import java.time.Duration;
 import java.time.Instant;
+
+import view.AccountsPage.components.VaultModal;
+import view.OverviewPage.sections.Header.components.NavPanel;
+
+import static controller.Controller.overview;
+import static controller.Controller.vaultModal;
+
 
 public class Subscription {
     private String id;
@@ -14,10 +20,10 @@ public class Subscription {
     private long timeRemaining;
     private Billing billing;
     private String dueDate;
+    private static NavPanel navPanel = new NavPanel();
 
-    // New fields for timer persistence
-    private long remainingTimeInMillis; // Remaining time for the timer in milliseconds
-    private Instant windowCloseTime; // The time when the application was closed
+    private long remainingTimeInMillis;
+    private Instant windowCloseTime;
 
     public Subscription(String email, String platform, long timeRemaining, Billing billing, String dueDate) {
         this.email = email;
@@ -34,6 +40,7 @@ public class Subscription {
         this.timeRemaining = timeRemaining;
         this.billing = billing;
         this.dueDate = dueDate;
+
     }
 
     public Subscription() {
@@ -119,6 +126,36 @@ public class Subscription {
             timeRemaining -= 1000;
             updateLabel(label);
         }
+
+        if (timeRemaining <= 0) {
+            controller.Controller.updateSubRemainingTime(id);
+//            showExpirationPopup();
+//            controller.Controller.deleteSubscription(id);
+            vaultModal = new VaultModal(SwingUtilities.getWindowAncestor(overview), this);
+            vaultModal.setVisible(true);
+            model.Subscriptions.SubscriptionList.removeSubscription(id);
+        }
+
+    }
+
+    private void showExpirationPopup() {
+        JLabel messageLabel = new JLabel("Subscription for " + platform + " has expired!");
+        messageLabel.setFont(UICreator.getRegularFont().deriveFont(13f));
+
+        JOptionPane optionPane = new JOptionPane(
+                messageLabel,
+                JOptionPane.WARNING_MESSAGE,
+                JOptionPane.OK_OPTION);
+
+        JDialog dialog = optionPane.createDialog("Subscription Expired");
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+
+        dialog.setVisible(true);
+
+        // Explicitly dispose of the dialog to ensure it closes
+        dialog.dispose();
+
+        // You may want to perform additional actions here, such as removing the expired subscription from the list
     }
 
     private void updateLabel(JLabel label) {
@@ -129,8 +166,13 @@ public class Subscription {
 
         String formattedTime = String.format("%02d days %02d:%02d:%02d", days, hours, minutes, seconds);
 
+//        System.out.println(formattedTime);
+
         SwingUtilities.invokeLater(() -> label.setText(formattedTime));
     }
+
+
+
 
     public void updateRemainingTime() {
         if (windowCloseTime != null) {
@@ -138,7 +180,6 @@ public class Subscription {
             long durationInMillis = duration.toMillis();
             timeRemaining = remainingTimeInMillis - durationInMillis;
         } else {
-            // Handle the case when windowCloseTime is null, e.g., no data was saved before
             timeRemaining = remainingTimeInMillis;
         }
 

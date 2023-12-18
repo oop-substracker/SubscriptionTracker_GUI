@@ -1,5 +1,7 @@
 package util;
 
+import com.formdev.flatlaf.FlatClientProperties;
+
 import javax.swing.*;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -8,11 +10,15 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class UICreator {
 
-    private static Font regularFont;
+    private static Font regularFont;    
     private static Font boldFont;
 
     public static void setDefaultFont(Font regularFont, Font boldFont) {
@@ -47,45 +53,15 @@ public class UICreator {
     }
 
     public static JTextField createTxtField(String placeholder) {
-        JTextField textField = new RoundedJTextField();
-        textField.setText(placeholder);
+        JTextField textField = new JTextField();
+        textField.putClientProperty("JComponent.roundRect", true);
+        textField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, placeholder);
         textField.setFont(new Font(regularFont.getFamily(), Font.PLAIN, 13));
-        textField.setFocusable(false);
+//        textField.setFocusable(false);
 
-        textField.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (textField.getText().equals(placeholder)) {
-                    textField.setText("");
-                    textField.setForeground(Color.BLACK);
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (textField.getText().isEmpty()) {
-                    textField.setText(placeholder);
-                    textField.setForeground(Color.GRAY);
-                }
-            }
-        });
-
-        textField.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (textField.getText().equals(placeholder)) {
-                    textField.setText("");
-                    textField.setForeground(Color.BLACK);
-                }
-                textField.setFocusable(true);
-                textField.requestFocusInWindow();
-            }
-        });
 
         return textField;
     }
-
-
 
     public static ImageIcon createImage(String path, int width, int height) {
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(UICreator.class.getResource(path)));
@@ -116,6 +92,22 @@ public class UICreator {
     public static void iconChanger(JButton button, String path, int w, int h)  {
         ImageIcon image = createImage(path, w, h);
         button.setIcon(image);
+    }
+
+    public static Instant parseStringToInstant(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy")
+                .withZone(ZoneId.systemDefault());
+
+        LocalDate localDate = LocalDate.parse(dateString, formatter);
+
+        return localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+    }
+
+    public static String formatInstantToString(Instant instant) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy")
+                .withZone(ZoneId.systemDefault());
+
+        return formatter.format(instant);
     }
 
 
@@ -162,6 +154,16 @@ public class UICreator {
 
 
         panel.add(comp, gc);
+    }
+
+    public static JPasswordField createJPassword() {
+        JPasswordField  jP = new JPasswordField();
+        jP.putClientProperty("JComponent.roundRect", true);
+        jP.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Password");
+        jP.setFont(new Font(regularFont.getFamily(), Font.PLAIN, 13));
+        jP.putClientProperty("JPasswordField.showViewIcon", Boolean.FALSE);
+        UIManager.put("PasswordField.showCapsLock", Boolean.FALSE);
+        return jP;
     }
 
     public static Font getRegularFont() {

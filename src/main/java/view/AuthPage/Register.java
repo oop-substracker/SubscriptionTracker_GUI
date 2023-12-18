@@ -1,13 +1,28 @@
 package view.AuthPage;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.UIManager;
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import util.DropShadowCreatorForAllSides;
 import util.UICreator;
 import controller.Controller;
 import model.UserAccount.User;
 
-
+    /**
+     * The Register class represents the registration panel for creating a new user account.
+     * Users can enter their personal information such as first name, last name, email, and password.
+     * The class provides functionality for creating a new account.
+     */
 public class Register extends JPanel {
 
     private JPanel leftSec;
@@ -22,14 +37,19 @@ public class Register extends JPanel {
 
     private JButton registerBtn;
 
+    /**
+     * Constructs a new Register panel.
+     * Initializes the user interface components for registration.
+     */
     public Register() {
-
         initLogin();
         initRightSec();
         initLeftSec();
 
         this.add(leftSec, BorderLayout.CENTER);
         this.add(rightSec, BorderLayout.WEST);
+
+        System.out.println(UIManager.getSystemLookAndFeelClassName());
 
     }
 
@@ -55,29 +75,12 @@ public class Register extends JPanel {
 
         String text = "<html><div style='text-align:center; '>Subscription<br>Tracker</div></html>";
         JLabel label = UICreator.createLabel(text, 23, Font.BOLD);
-//        label.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE_CLASS, "leftSide");
         UICreator.createComp(container, label, 0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, 10, 0, 0, 0, 0);
-
-        String text1 = "<html><div style='text-align:center; '>Already have an account? <span style='text-decoration:underline;'>Sign In</span></div></html>";
-        var leftDownLabel = UICreator.createLabel(text1, 13, Font.BOLD);
-//        leftDownLabel.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE_CLASS, "leftSide");
-        UICreator.createComp(container, leftDownLabel, 0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, 10, 0, 0, 0, 0);
 
         leftSec.setBackground(Color.decode("#212121"));
         container.setBackground(Color.decode("#212121"));
         container.setForeground(Color.decode("#b0bec3"));
-//        leftSec.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE_CLASS, "leftSide");
-//        container.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE_CLASS, "leftSide");
-
-
-        /* DROP SHADOW  */
-        Color shadowColor = Color.decode("#1c1d21");
-        Insets shadowInsets = new Insets(6, 0, 6, 6);
-        float shadowOpacity = 1.5f;
-//        Border shadowBorder = new com.formdev.flatlaf.ui.FlatDropShadowBorder(shadowColor, shadowInsets, shadowOpacity);
-//        container.setBorder(shadowBorder);
-
-
+        
         leftSec.add(container);
 
         UIManager.put("Label.foreground", null);
@@ -86,9 +89,13 @@ public class Register extends JPanel {
     private void initRightSec() {
         rightSec = new JPanel();
         rightSec.setPreferredSize(new Dimension(600, 100));
+        rightSec.setBackground(Color.WHITE);
         rightSec.setLayout(null);
 
-        UIManager.put("TextField.placeholderForeground", Color.decode("#304D6D"));
+        UIManager.put("TextField.placeholderForeground", Color.decode("#212121"));
+        UIManager.put("TextField.foreground", Color.decode("#212121"));
+        UIManager.put("PasswordField.foreground", Color.decode("#212121"));
+        UIManager.put("Label.foreground", Color.decode("#212121"));
 
         JPanel mainSection = new JPanel(new BorderLayout());
         mainSection.setBounds(90, 60,530,540);
@@ -99,6 +106,7 @@ public class Register extends JPanel {
 
         JPanel container = new JPanel(new GridBagLayout());
         container.setPreferredSize(new Dimension(350, 300));
+        container.setBackground(Color.WHITE);
 
         JLabel signLabel = UICreator.createLabel("Create Account", 30, Font.BOLD);
 
@@ -114,7 +122,7 @@ public class Register extends JPanel {
         email.setBackground(Color.decode("#C5F2BD"));
         email.setMargin(new Insets(5, 20, 5, 5));
 
-        password = UICreator.createTxtField("Password");
+        password = UICreator.createJPassword();
         password.setBackground(Color.decode("#C5F2BD"));
 
         password.setMargin(new Insets(5, 20, 5, 5));
@@ -122,6 +130,8 @@ public class Register extends JPanel {
         registerBtn = UICreator.createButton(true,"Create Account", 13, Font.PLAIN, null, 50, 50);
         registerBtn.setMargin(new Insets(1, 8, 1, 8));
         registerBtn.setBorderPainted(false);
+        registerBtn.setBackground(Color.WHITE);
+        registerBtn.setForeground(Color.decode("#212121"));
 
         String text = "<html><div style='text-align:center; '>Already have an account?<br><span style='text-decoration:underline; color:#000000; '>Sign In</span></div></html>";
         privacy = UICreator.createLabel(text, 13, Font.BOLD);
@@ -140,10 +150,21 @@ public class Register extends JPanel {
         UICreator.createComp(rightSec, mainSection, 0, 0, 1, 1, 0.0, 0.1, GridBagConstraints.CENTER, GridBagConstraints.NONE,0,0 , 0, 0, 120);
 
         UIManager.put("Label.foreground", null);
+        UIManager.put("TextField.placeholderForeground", null);
+        UIManager.put("PasswordField.foreground", null);
+        UIManager.put("TextField.foreground", null);
 
         /* REGISTER  */
         registerBtn.addActionListener(new Controller.AuthLoginListener(registerBtn));
     }
+
+    public void clearFields() {
+        lName.setText("");
+        fName.setText("");
+        email.setText("");
+        password.setText("");
+    }
+
 
     public void setUser(User user) {
         user.setEmail(email.getText());

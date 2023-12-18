@@ -39,6 +39,13 @@ public class RoundedPanel extends JPanel {
         setBorder(null); // Set the border to be empty
     }
 
+    public RoundedPanel(LayoutManager layout, int radius, boolean setStroke) {
+        super(layout);
+        cornerRadius = radius;
+        this.setStroke =setStroke;
+        setBorder(null); // Set the border to be empty
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -59,7 +66,7 @@ public class RoundedPanel extends JPanel {
 
         if (setStroke) {
             // Set the color for the border to green
-            graphics.setColor(Color.decode("#969eab"));
+            graphics.setColor(Color.BLACK);
 
             // Set the stroke for the border (increase thickness)
             graphics.setStroke(new BasicStroke(borderWidth));

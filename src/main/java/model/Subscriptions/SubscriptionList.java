@@ -25,6 +25,15 @@ public class SubscriptionList {
         SubscriptionList.subscriptionList = subscriptionList;
     }
 
+    public static void removeSubscription(String id) {
+        for (Subscription sub: subscriptionList) {
+            if (sub.getId().equals(id)) {
+                subscriptionList.remove(sub);
+            }
+        }
+    }
+
+
     public void addSubscription(Subscription subscription) {
         subscriptionList.add(subscription);
     }

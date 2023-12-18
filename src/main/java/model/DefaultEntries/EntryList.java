@@ -17,14 +17,14 @@ public class EntryList {
     }
 
     public void initEntryList() {
-        Entry e1 = new Entry("Spotify", new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/assets/spotify.png"))));
-        Entry e2 = new Entry("Netflix", new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/assets/spotify.png"))));
-        Entry e3 = new Entry("Youtube", new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/assets/spotify.png"))));
-        Entry e4 = new Entry("Dribble", new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/assets/spotify.png"))));
-        Entry e5 = new Entry("ChatGpt", new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/assets/spotify.png"))));
-        Entry e6 = new Entry("Instagram", new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/assets/spotify.png"))));
+        Entry e1 = new Entry("Spotify", new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/icons/Spotify.png"))));
+        Entry e2 = new Entry("Netflix", new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/icons/Netflix.png"))));
+        Entry e3 = new Entry("Youtube", new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/icons/Youtube.png"))));
+        Entry e4 = new Entry("Discord", new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/icons/Discord.png"))));
+        Entry e5 = new Entry("Twitch", new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/icons/Twitch.png"))));
+//        Entry e6 = new Entry("Instagram", new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/assets/spotify.png"))));
 
-        entryList.addAll(Arrays.asList(e1, e2, e3, e4, e5, e6));
+        entryList.addAll(Arrays.asList(e1, e2, e3, e4, e5));
     }
 
     public List<Entry> getEntryList() {

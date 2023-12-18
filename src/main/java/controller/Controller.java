@@ -3,10 +3,11 @@ package controller;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import model.DefaultEntries.Entry;
 import model.Subscriptions.Subscription;
 import model.Subscriptions.SubscriptionList;
@@ -18,8 +19,9 @@ import view.AuthPage.Login;
 import view.AuthPage.Register;
 import view.MainFrame;
 import view.OverviewPage.sections.Header.Header;
+import view.OverviewPage.sections.Header.components.AnalyticPanel;
 import view.OverviewPage.sections.Header.components.NavPanel;
-import view.SideBar2.SideBar;
+import view.SideBar.SideBar;
 import view.OverviewPage.Overview;
 import view.OverviewPage.sections.SubscriptionsView.SubsView;
 import view.OverviewPage.sections.CreateEntryView.CreateEntryView;
@@ -52,20 +54,21 @@ public class Controller  {
     private SubscriptionService subscriptionService;
 
     // models
-    private static SubscriptionList subscriptionList;
+    public static SubscriptionList subscriptionList;
 
     private static EntryCreationPage entryCreationPage;
 
     /* ========== */
-    private static Overview overview;
+    public static Overview overview;
     private static SubsView subsView;
     private static CreateEntryView createEntryView;
     private static AccountsPage accountsPage;
     private static PaymentsHistoryPage paymentsHistoryPage;
     private static BillingPage billingPage;
-    private static VaultModal vaultModal;
+    public static VaultModal vaultModal;
     private static Header header;
     private static NavPanel navPanel;
+    private static AnalyticPanel analyticPanel;
 
     private static EntryList entryList;
     private static EntryItemView entryItemView;
@@ -92,6 +95,7 @@ public class Controller  {
         vaultModal = accountsPage.getVaultModal();
         header = overview.getHeader();
         navPanel = header.getNavPanel();
+        analyticPanel = header.getAnalyticPanel();
 
         subscriptionVault = subsView.getSubscriptionVault();
 
@@ -126,9 +130,11 @@ public class Controller  {
     }
 
     private static void onLoad() {
+        analyticPanel.updateSubscriptionsAnalytic(SubscriptionList.getSubscriptionList());
         createEntryView.getEntryItemView().updateEntriesView(entryList.getEntryList());
         subsView.getSubscriptionVault().updateSubscriptionVaults(SubscriptionList.getSubscriptionList());
         accountsPage.getAccountsVault().updateAccountsView(SubscriptionList.getSubscriptionList());
+        paymentsHistoryPage.updateTabbedPane(SubscriptionList.getSubscriptionList());
         billingPage.getTabbedPane().updateTabbedPaneData(SubscriptionList.getSubscriptionList());
     }
 
@@ -170,6 +176,7 @@ public class Controller  {
                         authentication.registerUser(user);
 
                         if (authentication.getResponseCode() == 200) {
+                            register.clearFields();
                             register.setVisible(false);
                             login.setVisible(true);
                             frame.add(login, BorderLayout.CENTER);
@@ -182,6 +189,7 @@ public class Controller  {
 
                         if (authentication.getResponseCode() == 200) {
                             User authenticatedUser = authentication.getUser();
+                            login.clearFields();
                             List<Subscription> subscriptions = subscriptionHandler.getSubscriptions(authenticatedUser.getId());
                             if (subscriptions != null) {
                                 Controller.setSubscriptionList(subscriptions);
@@ -196,9 +204,15 @@ public class Controller  {
                             login.getErrorLabel().setText(authentication.getError());
                             System.out.println("Error mate");
                         }
-
-//                        user.setId("xxXXxx");
-//                        showUIOnLogin();
+                        break;
+                    case "Refresh":
+                        User authenticatedUser = authentication.getUser();
+                        List<Subscription> subscriptions = subscriptionHandler.getSubscriptions(authenticatedUser.getId());
+                        if (subscriptions != null) {
+                            Controller.setSubscriptionList(subscriptions);
+                            System.out.println(subscriptionList);
+                            onLoad();
+                        }
                         break;
                 }
             }
@@ -320,7 +334,7 @@ public class Controller  {
                         overview.setVisible(true);
 //                        subscriptionList.addSubscription(subscription);
 
-                        entryCreationPage.setSubcription(Controller.subscription);
+                        entryCreationPage.setSubscription(Controller.subscription);
                         /* == POST REQUEST == */
                         System.out.println(subscriptionHandler.createSubscription(subscription));
                         SubscriptionList.setSubscriptionList(subscriptionHandler.getSubscriptions(user.getId()));
@@ -344,7 +358,6 @@ public class Controller  {
         Component comp;
         Subscription subs;
 
-
         public CustomMouseListener(Component comp, Subscription subs) {
             this.subs = subs;
             this.comp = comp;
@@ -352,11 +365,16 @@ public class Controller  {
 
         public void mouseClicked(MouseEvent e) {
 
-            if (comp instanceof JLabel) {
+            if  (comp instanceof JLabel && comp == login.getGotoSignup()) {
+                register.setVisible(true);
+                login.setVisible(false);
+                frame.add(register, BorderLayout.CENTER);
+            } else if (comp instanceof JLabel) {
+                register.clearFields();
                 register.setVisible(false);
                 login.setVisible(true);
                 frame.add(login, BorderLayout.CENTER);
-            } else if (comp instanceof JPanel && comp == navPanel.getProfileDrop())  {
+            } else if (comp instanceof JPanel && comp == navPanel.getProfileDrop()) {
                 onLogOut();
             } else {
                 vaultModal = new VaultModal(SwingUtilities.getWindowAncestor(accountsPage), subs);
@@ -397,5 +415,51 @@ public class Controller  {
         }
     }
 
+    public static void updateSubRemainingTime(String id) {
+        subscriptionHandler.updateSubRemainingTime(id);
+        System.out.println("Id: " + id);
+    }
+
+    public static void deleteSubscription(String id) {
+        subscriptionHandler.deleteSubscription(id);
+        System.out.println("Id: " + id);
+    }
+
     /* ========================================================================================================== */
+    static boolean isLight = true;
+    public static class ThemeManager extends MouseAdapter {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+             JButton lightBtn = sideBar.getLightBtn();
+             JButton darkBtn = sideBar.getDarkBtn();
+
+            isLight = !isLight;
+           SwingUtilities.invokeLater(() -> {
+               try {
+                   if  (isLight) {
+                       UIManager.setLookAndFeel(new FlatMacLightLaf());
+//                       lightBtn.setBackground(Color.decode("#074855"));
+//                       darkBtn.setBackground(Color.decode("#172030"));
+
+                       lightBtn.setBackground(Color.decode("#565656"));
+                       darkBtn.setBackground(Color.decode("#1e1e1e"));
+
+
+                   } else { //FlatMacDarkLaf FlatCarbonIJTheme
+                       UIManager.setLookAndFeel(new FlatMacDarkLaf());
+//                       darkBtn.setBackground(Color.decode("#074855"));
+//                       lightBtn.setBackground(Color.decode("#172030"));
+
+                       darkBtn.setBackground(Color.decode("#565656"));
+                       lightBtn.setBackground(Color.decode("#1e1e1e"));
+                   }
+
+                   SwingUtilities.updateComponentTreeUI(frame);
+               } catch(Exception ev) {
+                   ev.printStackTrace();
+               }
+
+           });
+        }
+    }
 }
