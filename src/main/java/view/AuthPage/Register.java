@@ -44,8 +44,6 @@ public class Register extends JPanel {
         this.add(leftSec, BorderLayout.CENTER);
         this.add(rightSec, BorderLayout.WEST);
 
-        System.out.println(UIManager.getSystemLookAndFeelClassName());
-
     }
 
     private void initLogin() {
