@@ -33,16 +33,13 @@ public class SideBar extends JPanel {
     private JButton billingBtn;
     private JButton lightBtn;
     private JButton  darkBtn;
-
+    private JLabel profLabel;
     private JButton foldBtn;
 
     private JPanel topPanel;
     private JPanel center;
     private JPanel bottomPanel;
-
-
     boolean fold = false;
-
     JPanel container;
 
     public SideBar() {
@@ -126,7 +123,8 @@ public class SideBar extends JPanel {
 
             JPanel logoPanel = new JPanel(new BorderLayout());
             logoPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-            JLabel label = UICreator.createLabelWithImage("ST", 20, Font.BOLD, "/icons/assets/logo.png", 60, 60);
+            JLabel label = UICreator.createLabelWithImage("ST", 20, Font.BOLD, "/icons/assets/logo-2.png", 60, 60);
+            label.setFont(UICreator.getLogoFont().deriveFont(40f));
             foldBtn = UICreator.createButton(false,"", 0, 0, UICreator.createImage("/icons/assets/left-arrow.png", 30,30), 0, 0);
             foldBtn.setMargin(new Insets(0, 0 , 0,0));
             foldBtn.setBorderPainted(false);
@@ -135,18 +133,14 @@ public class SideBar extends JPanel {
             logoPanel.add(label, BorderLayout.WEST);
             logoPanel.add(foldBtn, BorderLayout.EAST);
 
-            //
 
             JPanel profilePanel = new RoundedPanel(15, true);
-//            profilePanel.setBackground(Color.WHITE);
             profilePanel.setBorder(null);
             profilePanel.setLayout(new BorderLayout());
             profilePanel.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 5));
             profilePanel.setMaximumSize(new Dimension(185, 70));
 
-
-            String text = "<html><div style='text-align:center;'><span style='color:#969eab; font-size:9px;'>Manage</span><br>" + "Harvie" +"</div></html>";
-            JLabel profLabel = UICreator.createLabelWithImage(text, 14, Font.BOLD, "/icons/assets/background-check.png", 47,47);
+            profLabel = UICreator.createLabelWithImage("", 14, Font.BOLD, "/icons/assets/background-check.png", 47,47);
             JButton drop = new JButton(UICreator.createImage("/icons/assets/caret-down.png", 8, 8));
             drop.setMargin(new Insets(0, 0 , 0,0));
             drop.setBorderPainted(false);
@@ -213,14 +207,14 @@ public class SideBar extends JPanel {
 
                     } else {
                         SideBar.this.setPreferredSize(new Dimension(230, 100)); // 230
-                        logoPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                        logoPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 5));
                         overviewBtn.setText("Overview");
                         accountsBtn.setText("Accounts");
                         paymentsBtn.setText("Payments History ");
                         billingBtn.setText("Billing Tracker");
                         UICreator.iconChanger(foldBtn, "/icons/assets/left-arrow.png",30, 30);
                         label.setText("ST");
-                        profLabel.setText(text);
+                        profLabel.setText(profLabel.getText());
                         drop.setVisible(true);
                         profilePanel.setMaximumSize(new Dimension(185, 70));
 
@@ -243,14 +237,17 @@ public class SideBar extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 if (fold) {
                     SideBar.this.setPreferredSize(new Dimension(230, 100)); // 230
-//                    logoPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+//                    logoPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 15));
                     overviewBtn.setText("Overview");
                     accountsBtn.setText("Accounts");
                     paymentsBtn.setText("Payments History ");
                     billingBtn.setText("Billing Tracker");
                     UICreator.iconChanger(foldBtn, "/icons/assets/left-arrow.png", 30, 30);
                     label.setText("ST");
-                    profLabel.setText(text);
+
+                    String[] userName = Controller.getUser().getEmail().split("@");
+                    profLabel.setText("<html><div style='text-align:left;'><span font-size:9px;'>User</span><br>" + "@" + userName[0] + "</div></html>");
+
                     drop.setVisible(true);
                     profilePanel.setMaximumSize(new Dimension(185, 70));
 
@@ -264,14 +261,14 @@ public class SideBar extends JPanel {
 
                     foldBtn.setVisible(true);
                     SideBar.this.setPreferredSize(new Dimension(230, 100)); // 230
-                    logoPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 5));
+                    logoPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                     overviewBtn.setText("Overview");
                     accountsBtn.setText("Accounts");
                     paymentsBtn.setText("Payments History ");
                     billingBtn.setText("Billing Tracker");
                     UICreator.iconChanger(foldBtn, "/icons/assets/left-arrow.png", 30, 30);
                     label.setText("ST");
-                    profLabel.setText(text);
+                    profLabel.setText(profLabel.getText());
                     drop.setVisible(true);
                     profilePanel.setMaximumSize(new Dimension(185, 70));
 
@@ -345,5 +342,9 @@ public class SideBar extends JPanel {
 
     public JButton getDarkBtn() {
         return darkBtn;
+    }
+
+    public JLabel getProfLabel() {
+        return profLabel;
     }
 }

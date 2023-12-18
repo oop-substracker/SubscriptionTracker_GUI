@@ -133,6 +133,11 @@ public class MainFrame extends JFrame  {
 
             UICreator.setDefaultFont(jetBrainsMonoFontRegular, jetBrainsMonoFontBold);
 
+            Font kristiFont = Font.createFont(Font.TRUETYPE_FONT, new File("src\\main\\resources\\custom_fonts\\rimiba\\King-Rimba-400.ttf"));
+            GraphicsEnvironment ge1 = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge1.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src\\main\\resources\\custom_fonts\\rimiba\\King-Rimba-400.ttf")));
+
+            UICreator.setLogoFont(kristiFont);
 
             SwingUtilities.invokeLater(() -> {
                 setUIFont(jetBrainsMonoFontRegular);;

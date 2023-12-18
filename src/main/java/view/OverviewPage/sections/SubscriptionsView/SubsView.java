@@ -10,7 +10,6 @@ public class SubsView extends JPanel {
 
     private JPanel topPanel;
     private JButton refreshBtn;
-    private JButton filterBtn;
     private SubscriptionVault subscriptionVault;
 
     public SubsView() {
@@ -38,10 +37,8 @@ public class SubsView extends JPanel {
         var topLabel = UICreator.createLabel("Active Subscriptions", 20, Font.BOLD);
 
         var btnsPanel = new JPanel(new FlowLayout());
-        filterBtn = UICreator.createButton(false, "Filter", 13, Font.PLAIN, UICreator.createImage("/icons/assets/filter.png", 15, 15), 0, 0);
         refreshBtn = UICreator.createButton(false,"Refresh", 13, Font.PLAIN, UICreator.createImage("/icons/assets/create.png", 15, 15), 0, 0);
         refreshBtn.addActionListener(new Controller.AuthLoginListener(refreshBtn));
-        btnsPanel.add(filterBtn);
         btnsPanel.add(refreshBtn);
 
         topPanel.add(topLabel, BorderLayout.WEST);

@@ -43,7 +43,7 @@ public class NavPanel extends JPanel {
     private void init() {
         var left = new JPanel(new BorderLayout());
         var title = UICreator.createLabel("Overview", 25, Font.BOLD);
-        var desc = UICreator.createLabel("Lorem ipsum dolor amet ipsum dolor amet ipsum dolor", 13, Font.PLAIN);
+        var desc = UICreator.createLabel("Keep track of your subscriptions", 13, Font.PLAIN);
 
         Box boxLayout = Box.createVerticalBox();
         boxLayout.add(title);

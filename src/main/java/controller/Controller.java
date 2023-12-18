@@ -189,6 +189,8 @@ public class Controller  {
 
                         if (authentication.getResponseCode() == 200) {
                             User authenticatedUser = authentication.getUser();
+                            String[] userName = authenticatedUser.getEmail().split("@");
+                            sideBar.getProfLabel().setText("<html><div style='text-align:left;'><span font-size:9px;'>User</span><br>" + "@" +userName[0] + "</div></html>");
                             login.clearFields();
                             List<Subscription> subscriptions = subscriptionHandler.getSubscriptions(authenticatedUser.getId());
                             if (subscriptions != null) {

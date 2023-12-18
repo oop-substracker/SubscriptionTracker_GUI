@@ -16,6 +16,7 @@
     import model.Subscriptions.Billing;
     import model.Subscriptions.constants.BillingPeriod;
     import util.DropShadowCreatorForAllSides;
+    import util.RoundedButton;
     import util.RoundedComboBox;
     import util.UICreator;
     import controller.Controller;
@@ -81,25 +82,24 @@
 
             email = UICreator.createTxtField("Email");
 
-            password = UICreator.createTxtField("Password");
+//            password = UICreator.createTxtField("Password");
 
             amount = UICreator.createTxtField("Amount");
 
             subscriptionPlan = new RoundedComboBox<>(plans);
             subscriptionPlan.setFont(UICreator.getRegularFont().deriveFont(Font.PLAIN, 13));
 
-            time = UICreator.createTxtField("31 : 00 : 00 : 00");
+            time = UICreator.createTxtField("00 : 00 : 00");
 
-            UIManager.put( "Button.arc", 999 );
-            createBtn = new JButton("Create Entry");
-            cancelBtn = new JButton("Cancel Entry");
+            createBtn = UICreator.createButton(true, "Create Entry", 13, Font.PLAIN, null, 50, 50);
+            cancelBtn = UICreator.createButton(true, "Cancel Entry", 13, Font.PLAIN, null, 50, 50);
 
             createBtn.addActionListener(new Controller.EntryCreationActionListeners(createBtn));
             cancelBtn.addActionListener(new Controller.EntryCreationActionListeners(cancelBtn));
 
             UICreator.createComp(formPanel, label, 0, 0, 4, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 50, 0, 5, 0);
             UICreator.createComp(formPanel, email, 0, 1, 4, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 40, 50, 0, 5, 30);
-            UICreator.createComp(formPanel, password, 0, 2, 4, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 50, 0, 5, 30);
+//            UICreator.createComp(formPanel, password, 0, 2, 4, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 50, 0, 5, 30);
             UICreator.createComp(formPanel, amount, 0, 3, 4, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 50, 0, 5, 30);
             UICreator.createComp(formPanel, subscriptionPlan, 0, 4, 4, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 50, 0, 5, 30);
             UICreator.createComp(formPanel, time, 0, 5  , 4, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 50, 0, 5, 30);

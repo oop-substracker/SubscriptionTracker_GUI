@@ -20,6 +20,7 @@ public class UICreator {
 
     private static Font regularFont;    
     private static Font boldFont;
+    private static Font logoFont;
 
     public static void setDefaultFont(Font regularFont, Font boldFont) {
         UICreator.regularFont = regularFont;
@@ -172,5 +173,13 @@ public class UICreator {
 
     public static Font getBoldFont() {
         return boldFont;
+    }
+
+    public static Font getLogoFont() {
+        return logoFont;
+    }
+
+    public static void setLogoFont(Font logoFont) {
+        UICreator.logoFont = logoFont;
     }
 }
