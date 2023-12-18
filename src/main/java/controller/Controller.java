@@ -1,18 +1,17 @@
 package controller;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import model.DefaultEntries.Entry;
 import model.Subscriptions.Subscription;
 import model.Subscriptions.SubscriptionList;
 import model.UserAccount.User;
 import model.DefaultEntries.EntryList;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+import java.util.List;
 
 import view.AccountsPage.components.VaultModal;
 import view.AuthPage.Login;
@@ -422,9 +421,28 @@ public class Controller  {
         System.out.println("Id: " + id);
     }
 
-    public static void deleteSubscription(String id) {
-        subscriptionHandler.deleteSubscription(id);
-        System.out.println("Id: " + id);
+    public static ActionListener deleteSubscription(String id) {
+        if (!id.isEmpty()) {
+            subscriptionHandler.deleteSubscription(id);
+            User authenticatedUser = authentication.getUser();
+            List<Subscription> subscriptions = subscriptionHandler.getSubscriptions(authenticatedUser.getId());
+            if (subscriptions != null) {
+                Controller.setSubscriptionList(subscriptions);
+                System.out.println(subscriptionList);
+                onLoad();
+            }
+        }
+        return null;
+    }
+
+    public static void refresh() {
+        User authenticatedUser = authentication.getUser();
+        List<Subscription> subscriptions = subscriptionHandler.getSubscriptions(authenticatedUser.getId());
+        if (subscriptions != null) {
+            Controller.setSubscriptionList(subscriptions);
+            System.out.println(subscriptionList);
+            onLoad();
+        }
     }
 
     /* ========================================================================================================== */
@@ -439,7 +457,7 @@ public class Controller  {
            SwingUtilities.invokeLater(() -> {
                try {
                    if  (isLight) {
-                       UIManager.setLookAndFeel(new FlatMacLightLaf());
+                       UIManager.setLookAndFeel(new com.formdev.flatlaf.themes.FlatMacLightLaf());
 //                       lightBtn.setBackground(Color.decode("#074855"));
 //                       darkBtn.setBackground(Color.decode("#172030"));
 
@@ -448,7 +466,7 @@ public class Controller  {
 
 
                    } else { //FlatMacDarkLaf FlatCarbonIJTheme
-                       UIManager.setLookAndFeel(new FlatMacDarkLaf());
+                       UIManager.setLookAndFeel(new com.formdev.flatlaf.themes.FlatMacDarkLaf());
 //                       darkBtn.setBackground(Color.decode("#074855"));
 //                       lightBtn.setBackground(Color.decode("#172030"));
 

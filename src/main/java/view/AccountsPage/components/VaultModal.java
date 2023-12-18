@@ -114,7 +114,7 @@ public class VaultModal extends JDialog {
         UICreator.createComp(container, closeBtn, 0, 0, 1, 1, 1, 0.1, GridBagConstraints.EAST, GridBagConstraints.NONE, -70, 0, 0, 10, 0);
         UICreator.createComp(container, image, 0, 0, 1, 1, 1, 0.1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 20, 0, -40, 0, 0);
         UICreator.createComp(container, status, 0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0, 0, -30, 0, 0);
-        UICreator.createComp(container, email, 0, 2, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 0, 0, 0, 0);
+        UICreator.createComp(container, email, 0, 2, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 15, 0, 0, 0, 0);
 //        UICreator.createComp(container, password, 0, 3, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, -20, 0, 0, 0, 0);
         UICreator.createComp(container, datePurchase, 0, 3, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0, 0, 0, 0, 0);
         UICreator.createComp(container, remainingTime, 0, 4, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0, 0, 0, 0, 0);

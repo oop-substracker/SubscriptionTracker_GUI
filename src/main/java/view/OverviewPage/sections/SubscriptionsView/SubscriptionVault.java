@@ -1,5 +1,6 @@
 package view.OverviewPage.sections.SubscriptionsView;
 
+import controller.Controller;
 import model.Subscriptions.Subscription;
 import util.RoundedPanelWithShadow;
 import util.UICreator;
@@ -103,6 +104,9 @@ public class SubscriptionVault extends JPanel {
         String text = "<html><div style='text-align:center; font-size: 9px; font-weight:bold;'>Cancel<br>Subscription</div></html>";
         var bottomRightBtn = UICreator.createButton(false, text, 14, Font.PLAIN, null, 0, 0);
         configureTransparentButton(bottomRightBtn);
+        bottomRightBtn.addActionListener(e  -> {
+            Controller.deleteSubscription(vault.getId());
+        });
 
         bottomPanel.add(bottomLeftBtn, BorderLayout.WEST);
         bottomPanel.add(bottomRightBtn, BorderLayout.EAST);

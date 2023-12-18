@@ -177,7 +177,7 @@ public class SubscriptionService implements SubscriptionsRepository {
                     response.append(line);
                 }
 
-                System.out.println("Response update message: " + parseJsonToSubscription(response.toString()));
+                System.out.println("Response update message: " + response);
             } else {
                 System.out.println("Failed to delete. Response Code: " + responseCode);
             }

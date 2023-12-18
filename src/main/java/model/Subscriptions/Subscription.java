@@ -3,6 +3,7 @@ package model.Subscriptions;
 import java.time.Duration;
 import java.time.Instant;
 
+import controller.Controller;
 import view.AccountsPage.components.VaultModal;
 import view.OverviewPage.sections.Header.components.NavPanel;
 
@@ -126,11 +127,10 @@ public class Subscription {
 
         if (timeRemaining <= 0) {
             controller.Controller.updateSubRemainingTime(id);
-//            showExpirationPopup();
-//            controller.Controller.deleteSubscription(id);
             vaultModal = new VaultModal(javax.swing.SwingUtilities.getWindowAncestor(overview), this);
             vaultModal.setVisible(true);
             model.Subscriptions.SubscriptionList.removeSubscription(id);
+
         }
     }
 
