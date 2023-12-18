@@ -72,6 +72,11 @@ public class Register extends JPanel {
         JLabel label = UICreator.createLabel(text, 23, Font.BOLD);
         UICreator.createComp(container, label, 0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, 10, 0, 0, 0, 0);
 
+        String text1 = "<html><div style='text-align:center; '>&ldquo;Stay on top of your subscriptions&rdquo;</div></html>";
+        var leftDownLabel = UICreator.createLabel(text1, 13, Font.BOLD);
+        leftDownLabel.setForeground(Color.decode("#b0bec3"));
+        UICreator.createComp(container, leftDownLabel, 0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, 10, 0, 0, 0, 0);
+
         leftSec.setBackground(Color.decode("#212121"));
         container.setBackground(Color.decode("#212121"));
         container.setForeground(Color.decode("#b0bec3"));
