@@ -35,6 +35,7 @@ public class EntryItemView extends JPanel {
      * @param entryList The list of entries to be displayed.
      */
     public void updateEntriesView(List<Entry> entryList) {
+        this.removeAll();
         for (Entry entry: entryList) {
             var panel = new RoundedPanel(new BorderLayout(), 10, false);
             panel.setPreferredSize(new Dimension(getWidth(), 50));

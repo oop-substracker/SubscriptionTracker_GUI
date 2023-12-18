@@ -36,7 +36,7 @@ public class SubscriptionVault extends JPanel {
 
     private void createSubscriptionPanel(Subscription vault) {
         var vaultContainer = new JPanel();
-        vaultContainer.setPreferredSize(new Dimension(275, 245));
+        vaultContainer.setPreferredSize(new Dimension(265, 240));
         vaultContainer.setLayout(new BorderLayout());
 
         var vaultContent = new RoundedPanelWithShadow();

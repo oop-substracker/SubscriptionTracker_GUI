@@ -287,13 +287,15 @@ public class Controller  {
         public void windowStateChanged(WindowEvent e) {
             if ((e.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) {
                 SwingUtilities.invokeLater(() -> {
-                    subsView.setBorder(BorderFactory.createEmptyBorder(30, 0, 0 , 0));
-                    createEntryView.setPreferredSize(new Dimension(createEntryView.getWidth(), 300));
+//                    subsView.setBorder(BorderFactory.createEmptyBorder(20, 0, 0 , 0));
+//                    createEntryView.setBorder(BorderFactory.createEmptyBorder(20, 0, 0 , 0));
+//                    createEntryView.setPreferredSize(new Dimension(createEntryView.getWidth(), 200));
                 });
             } else  {
                 SwingUtilities.invokeLater(() -> {
-                    subsView.setBorder(BorderFactory.createEmptyBorder(20, 0, 0 , 0));
-                    createEntryView.setPreferredSize(new Dimension(createEntryView.getWidth(), 200));
+//                    subsView.setBorder(BorderFactory.createEmptyBorder(20, 0, 0 , 0));
+//                    createEntryView.setBorder(BorderFactory.createEmptyBorder(0, 0, 0 , 0));
+//                    createEntryView.setPreferredSize(new Dimension(createEntryView.getWidth(), 200));
                 });
             }
         }
