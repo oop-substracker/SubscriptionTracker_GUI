@@ -3,7 +3,6 @@ package model.Subscriptions;
 import java.time.Duration;
 import java.time.Instant;
 
-import controller.Controller;
 import view.AccountsPage.components.VaultModal;
 import view.OverviewPage.sections.Header.components.NavPanel;
 

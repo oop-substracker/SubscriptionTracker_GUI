@@ -13,11 +13,11 @@ import util.UICreator;
 import controller.Controller;
 import model.UserAccount.User;
 
-    /**
-     * The Register class represents the registration panel for creating a new user account.
-     * Users can enter their personal information such as first name, last name, email, and password.
-     * The class provides functionality for creating a new account.
-     */
+/**
+* The Register class represents the registration panel for creating a new user account.
+* Users can enter their personal information such as first name, last name, email, and password.
+* The class provides functionality for creating a new account.
+*/
 public class Register extends JPanel {
 
     private JPanel leftSec;
